@@ -1,0 +1,10 @@
+{
+  "uuid": "quick-settings-notifications@mateusseiboth.github.io",
+  "name": "Quick Settings Notifications",
+  "description": "Moves notifications from the calendar into Quick Settings, grouped by app, with round quick toggles and banners on the top right corner, following the GNOME Design \"Quick Toggles\" mockup.",
+  "shell-version": ["50"],
+  "url": "https://github.com/mateusseiboth/quick-settings-notifications",
+  "settings-schema": "org.gnome.shell.extensions.quick-settings-notifications",
+  "gettext-domain": "quick-settings-notifications",
+  "version-name": "1.0.0"
+}

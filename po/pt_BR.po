@@ -1,0 +1,30 @@
+# Tradução pt-BR da extensão quick-settings-notifications.
+msgid ""
+msgstr ""
+"Project-Id-Version: quick-settings-notifications\n"
+"PO-Revision-Date: 2026-10-12 00:00-0400\n"
+"Last-Translator: Mateus Seiboth\n"
+"Language-Team: Portuguese (Brazil)\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Appearance"
+msgstr "Aparência"
+
+msgid "Notification banner position"
+msgstr "Posição do aviso de notificação"
+
+msgid "Round quick toggles"
+msgstr "Botões rápidos redondos"
+
+msgid "Top center"
+msgstr "Topo, ao centro"
+
+msgid "Top left"
+msgstr "Topo, à esquerda"
+
+msgid "Top right"
+msgstr "Topo, à direita"

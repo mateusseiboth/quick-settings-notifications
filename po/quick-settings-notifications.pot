@@ -1,0 +1,22 @@
+# Mensagens traduzíveis de quick-settings-notifications.
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "Appearance"
+msgstr ""
+
+msgid "Notification banner position"
+msgstr ""
+
+msgid "Round quick toggles"
+msgstr ""
+
+msgid "Top center"
+msgstr ""
+
+msgid "Top left"
+msgstr ""
+
+msgid "Top right"
+msgstr ""

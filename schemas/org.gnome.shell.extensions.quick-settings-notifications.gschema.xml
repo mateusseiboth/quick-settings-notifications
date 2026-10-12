@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Os nomes das chaves espelham src/infra/gnome/settingsKeys.ts. -->
+<schemalist gettext-domain="quick-settings-notifications">
+  <schema id="org.gnome.shell.extensions.quick-settings-notifications" path="/org/gnome/shell/extensions/quick-settings-notifications/">
+    <key name="banner-position" type="s">
+      <choices>
+        <choice value="top-left"/>
+        <choice value="top-center"/>
+        <choice value="top-right"/>
+      </choices>
+      <default>'top-right'</default>
+      <summary>Where incoming notification banners appear</summary>
+    </key>
+    <key name="round-toggles" type="b">
+      <default>true</default>
+      <summary>Show quick toggles as round buttons in four columns</summary>
+    </key>
+  </schema>
+</schemalist>
