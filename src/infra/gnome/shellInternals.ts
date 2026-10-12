@@ -19,8 +19,15 @@ export class ShellShapeError extends Error {
   }
 }
 
+/** `MessageView` (messageList.js, um St.Viewport): `empty` avisa quando não há notificação nem mídia. */
+export interface MessageViewInternals extends St.Widget {
+  readonly empty: boolean;
+}
+
 /** `CalendarMessageList` (calendar.js): a lista de notificações com agrupamento por app. */
 export interface MessageListInternals extends St.Widget {
+  readonly _messageView: MessageViewInternals;
+  readonly _clearButton: St.Button;
   maybeCollapseMessageGroupForEvent(event: Clutter.Event): boolean;
 }
 
@@ -50,6 +57,13 @@ export interface MenuToggleInternals extends St.Button {
   readonly _menuButton: St.Button;
   readonly menuEnabled: boolean;
   readonly menu: { open(): void };
+}
+
+/** `SystemItem` (status/system.js): cabeçalho com bateria, botões e dois espaçadores. */
+export interface SystemItemInternals extends St.Widget {
+  readonly child: St.BoxLayout;
+  readonly _laptopSpacer: Clutter.Actor;
+  readonly _desktopSpacer: Clutter.Actor;
 }
 
 export interface QuickSettingsInternals {
@@ -103,4 +117,18 @@ export const hasMenuToggleInternals = (actor: Clutter.Actor): actor is MenuToggl
     candidate._menuButton instanceof St.Button &&
     !!candidate.menu
   );
+};
+
+const SYSTEM_ITEM_CLASS = "quick-settings-system-item";
+
+export const requireSystemItem = (grid: St.Widget): SystemItemInternals => {
+  const item = grid
+    .get_children()
+    .find(
+      (child) => child instanceof St.Widget && child.has_style_class_name(SYSTEM_ITEM_CLASS),
+    ) as Partial<SystemItemInternals> | undefined;
+
+  if (!(item?.child instanceof St.BoxLayout)) throw new ShellShapeError("SystemItem.child");
+  if (!item._laptopSpacer || !item._desktopSpacer) throw new ShellShapeError("SystemItem spacers");
+  return item as SystemItemInternals;
 };

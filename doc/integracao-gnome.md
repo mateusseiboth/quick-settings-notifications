@@ -6,6 +6,9 @@ Conferido no gnome-shell 50.5 (código extraído de `/usr/lib64/gnome-shell/libs
 | --- | --- | --- |
 | `Main.panel.statusArea.dateMenu._messageList` (`CalendarMessageList`) | dateMenu.js, calendar.js | Lista movida para o Quick Settings |
 | `CalendarMessageList.maybeCollapseMessageGroupForEvent(event)` | calendar.js | Recolher grupo ao clicar fora |
+| `CalendarMessageList._messageView.empty` e `_clearButton` | calendar.js, messageList.js | Esconder a seção vazia; "Limpar" à direita |
+| `SystemItem.child`, `_laptopSpacer`, `_desktopSpacer` (classe `quick-settings-system-item`) | status/system.js | Reordenar o cabeçalho |
+| `Avatar` | userWidget.js | Foto do usuário no cabeçalho (o `@girs` 50.0.4 não declara; contrato mínimo na feature) |
 | `Main.panel.statusArea.dateMenu._indicator` (`MessagesIndicator`) | dateMenu.js | Indicador de não lidas movido. O primeiro filho da caixa do relógio é um espaçador ligado à visibilidade dele, e sai junto |
 | `quickSettings.menu._grid` e seu `QuickSettingsLayout` (`nColumns`, `_overlay`, `column-span`) | quickSettings.js | Grade de 4 colunas |
 | `QuickToggle._box`, `_icon`, `_title`, `_subtitle` | quickSettings.js | Reestilo redondo |

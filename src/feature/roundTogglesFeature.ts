@@ -15,7 +15,7 @@ import Meta from "gi://Meta";
 
 import { FeatureId } from "@domain/feature/featureId";
 import { UndoableFeature } from "@domain/feature/undoableFeature";
-import { ROUND_TOGGLE_COLUMNS, scaleColumnSpan } from "@domain/grid/columnSpan";
+import { GridPlacement, ROUND_TOGGLE_COLUMNS, resolveGridPlacement } from "@domain/grid/columnSpan";
 import { runAll } from "@domain/undo/runAll";
 import { UndoStack } from "@domain/undo/undoStack";
 import { isQuickToggle, TOGGLE_RESTYLERS } from "@feature/roundToggles/toggleRestylers";
@@ -86,21 +86,23 @@ export class RoundTogglesFeature extends UndoableFeature {
     undo.push(() => item.disconnect(destroyId));
 
     const meta = layout.get_child_meta(grid, item) as Clutter.LayoutMeta & { column_span: number };
+    const placement = resolveGridPlacement({
+      isToggle: isQuickToggle(item),
+      span: meta.column_span,
+      from: originalColumns,
+      to: ROUND_TOGGLE_COLUMNS,
+    });
+
     undo.apply(
       () => {
         const previous = meta.column_span;
-        const span = scaleColumnSpan({
-          isToggle: isQuickToggle(item),
-          span: previous,
-          from: originalColumns,
-          to: ROUND_TOGGLE_COLUMNS,
-        });
-        layout.child_set_property(grid, item, "column-span", span);
+        layout.child_set_property(grid, item, "column-span", placement.span);
         return previous;
       },
       (previous) => layout.child_set_property(grid, item, "column-span", previous),
     );
 
+    if (placement.kind !== GridPlacement.ROUND_TOGGLE) return;
     TOGGLE_RESTYLERS.find((restyler) => restyler.matches(item))?.apply(item, undo);
   }
 

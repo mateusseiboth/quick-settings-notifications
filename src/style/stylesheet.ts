@@ -2,6 +2,10 @@
  * Folha de estilo da extensão. UM molde, tokens por variante (strategy map); o build grava
  * `stylesheet-dark.css`, `stylesheet-light.css` e `stylesheet.css` (fallback = escuro).
  *
+ * A grade tem LARGURA FIXA (a mesma do Quick Settings original: 2 x 12em + espaço). Sem
+ * isso, qualquer texto comprido de um item (rótulo com reticências ainda declara a largura
+ * do texto inteiro) esticava as quatro colunas e o painel ficava enorme.
+ *
  * Os toggles redondos PERDEM as classes `quick-toggle`/`button` do tema enquanto a
  * extensão está ativa: assim nenhuma regra de pílula do tema (fundo, hover, checked)
  * disputa especificidade com estas, e o visual é desenhado do zero aqui.
@@ -40,24 +44,23 @@ const THEME_TOKENS: Record<ThemeVariant, ThemeTokens> = {
 
 const TEMPLATE = `
 .qsn-round-grid {
-  spacing-rows: 16px;
-  spacing-columns: 6px;
+  width: 25em;
+  spacing-rows: 10px;
+  spacing-columns: 4px;
 }
 
 .qsn-round-toggle {
-  min-width: 5.6em;
-  max-width: 5.6em;
   padding: 0;
   background-color: transparent;
 }
 
 .qsn-round-box {
-  spacing: 6px;
+  spacing: 4px;
 }
 
 .qsn-round-icon {
-  icon-size: 18px;
-  padding: 15px;
+  icon-size: 16px;
+  padding: 13px;
   border-radius: 999px;
   background-color: {{circle}};
 }
@@ -114,23 +117,29 @@ const TEMPLATE = `
   color: {{dimText}};
 }
 
-.qsn-notifications {
-  max-height: 30em;
-}
-
-.qsn-notifications .message-list {
-  margin: 0;
+.qsn-avatar-button {
   padding: 0;
-  border-width: 0;
+  border-radius: 999px;
 }
 
-.qsn-notifications .message-list-placeholder > StIcon {
-  icon-size: 48px;
-  margin-bottom: 6px;
+.qsn-avatar {
+  icon-size: 32px;
+  border-radius: 999px;
+  background-size: cover;
+  background-color: {{circle}};
 }
 
-.qsn-notifications .message-list-controls {
-  padding: 6px 0 0;
+.qsn-avatar-button:hover {
+  background-color: {{labelHover}};
+}
+
+.qsn-avatar-button:focus {
+  box-shadow: inset 0 0 0 2px -st-accent-color;
+}
+
+.qsn-notifications {
+  width: 25em;
+  max-height: 30em;
 }
 `;
 

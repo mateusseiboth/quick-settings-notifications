@@ -29,6 +29,19 @@ Alterou um, replique no outro na mesma tarefa.
 
 ## Armadilhas
 
+- Regra do tema GANHA da folha da extensão quando as duas estilizam a mesma propriedade no
+  mesmo ator (a margem de `.message-list:ltr` e o recuo de `.message-list-controls`
+  continuaram apesar do nosso CSS). Para ator nativo, use estilo inline com desfazer
+  (`setInlineStyle` na `NotificationListFeature`). CSS da extensão só para classes nossas.
+- O `Avatar` lê `icon-size` do tema; a classe `user-icon` crava 64px e esticava o
+  cabeçalho. O avatar usa só a classe `qsn-avatar`.
+- A grade e a seção de notificações têm LARGURA FIXA no CSS (25em). Rótulo com reticências
+  ainda declara a largura do texto inteiro, e o `QuickSettingsLayout` divide a maior largura
+  natural pelo `column-span`: um texto comprido estica as 4 colunas. Foi o que deixou o
+  painel com ~750 px na primeira versão. A `quick-settings-audio-panel` (libpanel) ainda
+  copia essa largura para o painel dela.
+- Só toggle de UMA coluna vira redondo (`resolveGridPlacement`). O "aplicativos em segundo
+  plano" é um QuickToggle de largura total e não pode ser convertido.
 - `QuickSettingsMenu.addItem` adiciona o ator à grade ANTES de gravar o `column-span`. Por
   isso a conversão de itens novos espera o próximo quadro (`Meta.LaterType.BEFORE_REDRAW`).
 - Os toggles redondos tiram as classes `quick-toggle` e `button` do tema. Sem isso as regras

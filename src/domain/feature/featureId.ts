@@ -7,6 +7,7 @@ export const FeatureId = {
   MESSAGE_TRAY_SHORTCUT: "message-tray-shortcut",
   NOTIFICATION_LIST: "notification-list",
   MESSAGES_INDICATOR: "messages-indicator",
+  HEADER_LAYOUT: "header-layout",
   ROUND_TOGGLES: "round-toggles",
 } as const;
 export type FeatureId = (typeof FeatureId)[keyof typeof FeatureId];

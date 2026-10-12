@@ -3,15 +3,21 @@
 Extensão do GNOME Shell 50 que segue o mockup "Quick Toggles" do GNOME Design:
 
 - As notificações saem do calendário e vão para o fim do Quick Settings, agrupadas por app.
-  Clicar num grupo mostra as demais notificações dele, como no calendário.
+  Clicar num grupo mostra as demais notificações dele, como no calendário. Sem notificação,
+  a seção some. O "Limpar" fica à direita.
 - Os toggles viram botões redondos em quatro colunas. O círculo liga e desliga. Nos toggles
   com menu, o título vira "Título ▾" e abre as opções, como a seta de antes.
 - O aviso de notificação recebida aparece no topo direito em vez do centro.
 - O ponto de "não lida" ao lado do relógio vira um sino junto aos ícones do Quick Settings.
+- Cabeçalho como no mockup: avatar do usuário à esquerda (abre as configurações de
+  usuários), captura de tela e configurações junto do cadeado e do desligar, à direita.
 - Super+V abre o Quick Settings (onde as notificações estão agora) em vez do calendário.
 
 A lista movida é o próprio `CalendarMessageList` do Shell. Agrupamento, expansão do grupo,
-player de mídia, botão "Limpar" e o aviso de lista vazia continuam sendo o código nativo.
+player de mídia e o botão "Limpar" continuam sendo o código nativo.
+
+Itens que ocupam a largura toda (cabeçalho, sliders, "aplicativos em segundo plano")
+mantêm o visual original. Só os toggles de uma coluna viram redondos.
 
 ## Preferências
 

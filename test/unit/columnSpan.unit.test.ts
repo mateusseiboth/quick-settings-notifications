@@ -1,32 +1,42 @@
 /**
- * A grade do Quick Settings passa de 2 para 4 colunas: toggle ocupa 1 coluna (redondo),
- * o que era largura total continua largura total, o resto escala na proporção.
+ * A grade do Quick Settings passa de 2 para 4 colunas. Só o toggle que ocupava UMA coluna
+ * vira redondo; o que ocupava a largura toda (cabeçalho, sliders, "aplicativos em segundo
+ * plano", notificações) continua com a largura toda e com o visual original.
  */
 import { describe, expect, test } from "bun:test";
 
-import { scaleColumnSpan } from "@domain/grid/columnSpan";
+import { GridPlacement, resolveGridPlacement } from "@domain/grid/columnSpan";
 
-describe("scaleColumnSpan", () => {
-  test("toggle ocupa uma coluna", () => {
-    expect(scaleColumnSpan({ isToggle: true, span: 1, from: 2, to: 4 })).toBe(1);
-    expect(scaleColumnSpan({ isToggle: true, span: 2, from: 2, to: 4 })).toBe(1);
+describe("resolveGridPlacement", () => {
+  test("toggle de uma coluna vira redondo e ocupa uma coluna", () => {
+    expect(resolveGridPlacement({ isToggle: true, span: 1, from: 2, to: 4 })).toEqual({
+      kind: GridPlacement.ROUND_TOGGLE,
+      span: 1,
+    });
   });
 
-  test("largura total continua largura total", () => {
-    expect(scaleColumnSpan({ isToggle: false, span: 2, from: 2, to: 4 })).toBe(4);
+  test("toggle de largura total continua de largura total, sem reestilo", () => {
+    expect(resolveGridPlacement({ isToggle: true, span: 2, from: 2, to: 4 })).toEqual({
+      kind: GridPlacement.FULL_WIDTH,
+      span: 4,
+    });
   });
 
-  test("item parcial escala na proporção", () => {
-    expect(scaleColumnSpan({ isToggle: false, span: 1, from: 2, to: 4 })).toBe(2);
+  test("item que não é toggle e ocupava tudo continua ocupando tudo", () => {
+    expect(resolveGridPlacement({ isToggle: false, span: 2, from: 2, to: 4 })).toEqual({
+      kind: GridPlacement.FULL_WIDTH,
+      span: 4,
+    });
   });
 
-  test("voltar de 4 para 2 colunas", () => {
-    expect(scaleColumnSpan({ isToggle: false, span: 4, from: 4, to: 2 })).toBe(2);
-    expect(scaleColumnSpan({ isToggle: false, span: 1, from: 4, to: 2 })).toBe(1);
+  test("item parcial que não é toggle escala na proporção", () => {
+    expect(resolveGridPlacement({ isToggle: false, span: 1, from: 2, to: 4 })).toEqual({
+      kind: GridPlacement.SCALED,
+      span: 2,
+    });
   });
 
-  test("nunca passa do total de colunas nem fica abaixo de 1", () => {
-    expect(scaleColumnSpan({ isToggle: false, span: 9, from: 2, to: 4 })).toBe(4);
-    expect(scaleColumnSpan({ isToggle: false, span: 0, from: 2, to: 4 })).toBe(1);
+  test("nunca fica abaixo de 1 coluna", () => {
+    expect(resolveGridPlacement({ isToggle: false, span: 0, from: 2, to: 4 }).span).toBe(1);
   });
 });

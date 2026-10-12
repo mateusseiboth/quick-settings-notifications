@@ -8,6 +8,7 @@ import "@girs/gio-2.0/ambient";
 import "@girs/giounix-2.0/ambient";
 import "@girs/glib-2.0/ambient";
 import "@girs/gobject-2.0/ambient";
+import "@girs/accountsservice-1.0/ambient";
 import "@girs/adw-1/ambient";
 import "@girs/gtk-4.0/ambient";
 import "@girs/gdk-4.0/ambient";
