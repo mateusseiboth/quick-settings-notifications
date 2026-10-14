@@ -12,6 +12,9 @@ Extensão do GNOME Shell 50 que segue o mockup "Quick Toggles" do GNOME Design:
 - Cabeçalho como no mockup: avatar do usuário à esquerda (abre as configurações de
   usuários), captura de tela e configurações junto do cadeado e do desligar, à direita.
 - Super+V abre o Quick Settings (onde as notificações estão agora) em vez do calendário.
+- Opcional: notificações num painel separado, logo abaixo do Quick Settings.
+- Opcional: barra superior transparente, com ou sem um fundo em volta de cada zona
+  (atividades, relógio, ícones e Quick Settings).
 
 A lista movida é o próprio `CalendarMessageList` do Shell. Agrupamento, expansão do grupo,
 player de mídia e o botão "Limpar" continuam sendo o código nativo.
@@ -22,7 +25,11 @@ mantêm o visual original. Só os toggles de uma coluna viram redondos.
 ## Preferências
 
 - Posição do aviso de notificação: topo à esquerda, ao centro ou à direita (padrão direita).
-- Botões rápidos redondos: liga e desliga o formato redondo sem desligar o resto.
+- Botões rápidos redondos: ligado, toggles redondos em quatro colunas. Desligado, os
+  toggles em pílula do GNOME, com a cor de destaque do sistema.
+- Notificações em um painel separado: a lista sai do fim do Quick Settings e vai para um
+  cartão próprio logo abaixo dele, com o mesmo visual do tema (padrão desligado).
+- Barra superior: padrão, transparente, ou transparente com fundo em cada grupo.
 
 ## Instalação
 
@@ -51,3 +58,8 @@ Arquitetura, internos do Shell que a extensão toca e as decisões estão em `do
 - O subtítulo dos toggles (nome da rede Wi-Fi, dispositivo Bluetooth) some no formato
   redondo, porque não cabe em quatro colunas. O menu de cada toggle continua mostrando.
 - Extensões que também reorganizam o Quick Settings podem brigar pela mesma grade.
+- O painel de notificações separado não é reposicionado pelo Shell: em tela baixa, com o
+  Quick Settings alto e muitas notificações, a parte de baixo pode passar da borda. A lista
+  rola por dentro a partir de 30em.
+- A barra transparente usa estilo inline no `#panel`. Extensões que também mexem no fundo
+  da barra (blur-my-shell, transparent-top-bar) podem disputar com ela.

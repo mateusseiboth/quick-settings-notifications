@@ -15,5 +15,18 @@
       <default>true</default>
       <summary>Show quick toggles as round buttons in four columns</summary>
     </key>
+    <key name="separate-notification-panel" type="b">
+      <default>false</default>
+      <summary>Show notifications in a separate panel below Quick Settings</summary>
+    </key>
+    <key name="top-bar-style" type="s">
+      <choices>
+        <choice value="default"/>
+        <choice value="transparent"/>
+        <choice value="transparent-zones"/>
+      </choices>
+      <default>'default'</default>
+      <summary>Top bar background: default, transparent, or transparent with a background around each zone</summary>
+    </key>
   </schema>
 </schemalist>

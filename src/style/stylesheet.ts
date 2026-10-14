@@ -9,6 +9,10 @@
  * Os toggles redondos PERDEM as classes `quick-toggle`/`button` do tema enquanto a
  * extensão está ativa: assim nenhuma regra de pílula do tema (fundo, hover, checked)
  * disputa especificidade com estas, e o visual é desenhado do zero aqui.
+ *
+ * O fundo das zonas da barra superior é o mesmo nas duas variantes: a barra do GNOME é
+ * escura também no tema claro, e o texto dela continua branco. Zona sem item visível tem
+ * largura zero e o fundo não aparece (por isso sem `padding`).
  */
 
 export const ThemeVariant = {
@@ -140,6 +144,12 @@ const TEMPLATE = `
 .qsn-notifications {
   width: 25em;
   max-height: 30em;
+}
+
+.qsn-top-bar-zone {
+  margin: 2px 3px;
+  border-radius: 999px;
+  background-color: rgba(0, 0, 0, 0.6);
 }
 `;
 

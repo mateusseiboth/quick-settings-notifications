@@ -15,22 +15,26 @@ import { MessagesIndicatorFeature } from "@feature/messagesIndicatorFeature";
 import { MessageTrayShortcutFeature } from "@feature/messageTrayShortcutFeature";
 import { NotificationListFeature } from "@feature/notificationListFeature";
 import { RoundTogglesFeature } from "@feature/roundTogglesFeature";
+import { TopBarStyleFeature } from "@feature/topBarStyleFeature";
 import { SettingsKey } from "@infra/gnome/settingsKeys";
 import { FeatureSet, type FeaturePhase } from "@service/featureSet";
 
 export const createFeatures = (settings: Gio.Settings): Feature[] => [
   new BannerPositionFeature(settings),
   new MessageTrayShortcutFeature(),
-  new NotificationListFeature(),
+  new NotificationListFeature(settings),
   new MessagesIndicatorFeature(),
   new HeaderLayoutFeature(),
   new RoundTogglesFeature(settings),
+  new TopBarStyleFeature(settings),
 ];
 
 /** Preferência alterada -> feature reaplicada. */
 const FEATURE_BY_SETTING: Record<SettingsKey, FeatureId> = {
   [SettingsKey.BANNER_POSITION]: FeatureId.BANNER_POSITION,
   [SettingsKey.ROUND_TOGGLES]: FeatureId.ROUND_TOGGLES,
+  [SettingsKey.SEPARATE_NOTIFICATION_PANEL]: FeatureId.NOTIFICATION_LIST,
+  [SettingsKey.TOP_BAR_STYLE]: FeatureId.TOP_BAR_STYLE,
 };
 
 const logFeatureError = (id: string, phase: FeaturePhase, error: unknown): void =>

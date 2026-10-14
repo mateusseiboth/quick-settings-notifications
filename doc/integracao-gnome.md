@@ -14,6 +14,8 @@ Conferido no gnome-shell 50.5 (código extraído de `/usr/lib64/gnome-shell/libs
 | `QuickToggle._box`, `_icon`, `_title`, `_subtitle` | quickSettings.js | Reestilo redondo |
 | `QuickMenuToggle._box`, `_menuButton`, `menuEnabled`, `menu` | quickSettings.js | Reestilo com "Título ▾" |
 | `quickSettings.addExternalIndicator(indicator)` | panel.js | Lugar do sino |
+| `quickSettings.menu.actor` e `menu._boxPointer` | quickSettings.js, boxpointer.js | Painel de notificações separado, preso abaixo do cartão |
+| `Main.panel._leftBox`, `_centerBox`, `_rightBox` | panel.js | Fundo em cada zona da barra superior |
 | `Main.messageTray.bannerAlignment` | messageTray.js | Posição do aviso |
 | `Main.wm.setCustomKeybindingHandler('toggle-message-tray', ...)` | windowManager.js | Super+V |
 

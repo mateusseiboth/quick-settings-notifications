@@ -6,10 +6,19 @@ msgstr ""
 msgid "Appearance"
 msgstr ""
 
+msgid "Default"
+msgstr ""
+
 msgid "Notification banner position"
 msgstr ""
 
+msgid "Notifications in a separate panel"
+msgstr ""
+
 msgid "Round quick toggles"
+msgstr ""
+
+msgid "Top bar"
 msgstr ""
 
 msgid "Top center"
@@ -19,4 +28,10 @@ msgid "Top left"
 msgstr ""
 
 msgid "Top right"
+msgstr ""
+
+msgid "Transparent"
+msgstr ""
+
+msgid "Transparent with badges"
 msgstr ""

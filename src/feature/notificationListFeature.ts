@@ -1,5 +1,6 @@
 /**
- * Tira a lista de notificações do calendário e a coloca no fim do Quick Settings.
+ * Tira a lista de notificações do calendário e a coloca no fim do Quick Settings, ou num
+ * painel separado logo abaixo dele (preferência; ver `SECTION_HOSTS`).
  *
  * O ator movido é o PRÓPRIO `CalendarMessageList` do Shell, não uma cópia: agrupamento por
  * app, expansão do grupo ao clicar, player de mídia e "Limpar" continuam sendo o código
@@ -7,11 +8,15 @@
  * desligar, a lista volta para a mesma posição no calendário.
  */
 import Clutter from "gi://Clutter";
+import type Gio from "gi://Gio";
 import St from "gi://St";
 
 import { FeatureId } from "@domain/feature/featureId";
 import { UndoableFeature } from "@domain/feature/undoableFeature";
+import { resolveNotificationPlacement } from "@domain/notification/notificationPlacement";
 import { isNotificationSectionVisible } from "@domain/notification/notificationVisibility";
+import { SECTION_HOSTS } from "@feature/notificationList/sectionHosts";
+import { SettingsKey } from "@infra/gnome/settingsKeys";
 import {
   requireDateMenu,
   requireQuickSettings,
@@ -27,21 +32,28 @@ const COLLAPSE_EVENTS = [
 export class NotificationListFeature extends UndoableFeature {
   readonly id = FeatureId.NOTIFICATION_LIST;
 
+  constructor(private readonly settings: Gio.Settings) {
+    super();
+  }
+
   protected apply(): void {
     const { _messageList: messageList } = requireDateMenu();
-    const { menu, layout } = requireQuickSettings();
+    const quickSettings = requireQuickSettings();
+    const { menu } = quickSettings;
 
     const section = new St.BoxLayout({
       style_class: "qsn-notifications",
       orientation: Clutter.Orientation.VERTICAL,
       x_expand: true,
     });
-    menu.addItem(section, layout.nColumns);
-    this.undo.push(() => section.destroy());
+    const placement = resolveNotificationPlacement({
+      isSeparatePanel: this.settings.get_boolean(SettingsKey.SEPARATE_NOTIFICATION_PANEL),
+    });
+    const host = SECTION_HOSTS[placement].attach(section, quickSettings, this.undo);
 
     this.moveIntoSection(messageList, section);
     this.removeCalendarSpacing(messageList);
-    this.hideWhenEmpty(messageList, section);
+    this.hideWhenEmpty(messageList, host);
     this.alignClearButtonRight(messageList);
     this.collapseGroupsOnOutsideClick(menu.actor, (event) =>
       messageList.maybeCollapseMessageGroupForEvent(event),
@@ -87,9 +99,10 @@ export class NotificationListFeature extends UndoableFeature {
     );
   }
 
-  private hideWhenEmpty(messageList: MessageListInternals, section: St.BoxLayout): void {
+  /** `host` é a seção (na grade) ou o painel separado inteiro. */
+  private hideWhenEmpty(messageList: MessageListInternals, host: St.Widget): void {
     const view = messageList._messageView;
-    const sync = () => (section.visible = isNotificationSectionVisible({ isEmpty: view.empty }));
+    const sync = () => (host.visible = isNotificationSectionVisible({ isEmpty: view.empty }));
 
     const id = view.connect("notify::empty", sync);
     sync();

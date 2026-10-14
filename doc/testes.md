@@ -3,8 +3,9 @@
 ## Unitários
 
 `bun test` cobre a pilha de desfazer, o ciclo das features, a escala de colunas, a posição
-do aviso, o CSS e o catálogo de tradução. Tudo sem GNOME. Arquivo novo segue
-`<assunto>.unit.test.ts`.
+do aviso, o lugar das notificações, o estilo da barra superior, o CSS, o catálogo de
+tradução e a paridade entre o schema GSettings e as chaves do código. Tudo sem GNOME.
+Arquivo novo segue `<assunto>.unit.test.ts`.
 
 ## Shell real, sem mexer na sessão
 

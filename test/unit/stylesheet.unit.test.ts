@@ -26,6 +26,10 @@ describe("buildStylesheet", () => {
     }
   });
 
+  test("as zonas da barra superior ganham fundo arredondado", () => {
+    expect(selectorsOf(buildStylesheet(ThemeVariant.DARK))).toContain(".qsn-top-bar-zone");
+  });
+
   test("todo seletor começa por uma classe da extensão", () => {
     const selectors = selectorsOf(buildStylesheet(ThemeVariant.DARK));
 

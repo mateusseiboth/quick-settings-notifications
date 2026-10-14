@@ -48,5 +48,13 @@ Alterou um, replique no outro na mesma tarefa.
   de pílula do tema (fundo no hover e no checked) brigam com o CSS da extensão.
 - Mover o `CalendarMessageList` exige devolver o ator ANTES de destruir a seção que o abriga
   (a pilha de desfazer roda em ordem inversa, então a seção é registrada primeiro).
+- O painel de notificações separado é IRMÃO do `BoxPointer` dentro do `menu.actor`, não
+  filho dele: o `BoxPointer` desenha o próprio fundo e é redirecionado para fora da tela
+  (offscreen). Dentro do `menu.actor` o painel herda abrir/fechar, foco e o clique que não
+  fecha o menu.
+- `#panel` é regra por ID no tema: classe da extensão não ganha. Fundo da barra só por
+  estilo inline com desfazer.
+- No modo pílula NÃO se altera a cor do toggle ligado: é a cor de destaque do sistema, que
+  muda por distro e por usuário.
 - Typecheck em três projetos pelo mesmo motivo do gnome-spotlight (o `global` do Node no
   `@types/bun` colide com o do Shell).

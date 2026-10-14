@@ -14,11 +14,20 @@ msgstr ""
 msgid "Appearance"
 msgstr "Aparência"
 
+msgid "Default"
+msgstr "Padrão"
+
 msgid "Notification banner position"
 msgstr "Posição do aviso de notificação"
 
+msgid "Notifications in a separate panel"
+msgstr "Notificações em um painel separado"
+
 msgid "Round quick toggles"
 msgstr "Botões rápidos redondos"
+
+msgid "Top bar"
+msgstr "Barra superior"
 
 msgid "Top center"
 msgstr "Topo, ao centro"
@@ -28,3 +37,9 @@ msgstr "Topo, à esquerda"
 
 msgid "Top right"
 msgstr "Topo, à direita"
+
+msgid "Transparent"
+msgstr "Transparente"
+
+msgid "Transparent with badges"
+msgstr "Transparente, com fundo em cada grupo"

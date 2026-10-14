@@ -4,8 +4,8 @@
  * se uma versão nova do Shell mudar o ator, a feature falha com mensagem clara no log em
  * vez de quebrar outra coisa no meio do caminho.
  *
- * Fontes conferidas: js/ui/quickSettings.js, js/ui/dateMenu.js e js/ui/calendar.js do
- * gnome-shell 50.5.
+ * Fontes conferidas: js/ui/quickSettings.js, js/ui/dateMenu.js, js/ui/calendar.js e
+ * js/ui/panel.js do gnome-shell 50.5.
  */
 import type Clutter from "gi://Clutter";
 import St from "gi://St";
@@ -98,6 +98,49 @@ export const requireQuickSettings = (): QuickSettingsInternals => {
     throw new ShellShapeError("QuickSettingsLayout.nColumns");
 
   return { button, menu, grid, layout };
+};
+
+/**
+ * O que fica por fora do cartão do Quick Settings: `menu.actor` é um `St.Widget` de
+ * tamanho zero que segura o `BoxPointer` (o cartão desenhado) e a camada dos submenus.
+ * Ator filho dele aparece e some com o menu e pertence ao mesmo grupo de foco.
+ */
+export interface QuickSettingsPopupInternals {
+  readonly container: St.Widget;
+  readonly boxPointer: St.Widget;
+}
+
+export const requireQuickSettingsPopup = (menu: QuickSettingsMenu): QuickSettingsPopupInternals => {
+  const container = menu.actor as unknown;
+  const boxPointer = menu._boxPointer as unknown;
+  if (!(container instanceof St.Widget)) throw new ShellShapeError("quickSettings.menu.actor");
+  if (!(boxPointer instanceof St.Widget) || boxPointer.get_parent() !== container)
+    throw new ShellShapeError("quickSettings.menu._boxPointer");
+  return { container, boxPointer };
+};
+
+/** `Panel` (panel.js): a barra superior e as três caixas (esquerda, centro e direita). */
+export interface TopBarInternals {
+  readonly panel: St.Widget;
+  readonly zones: readonly St.BoxLayout[];
+}
+
+interface PanelBoxes {
+  readonly _leftBox?: unknown;
+  readonly _centerBox?: unknown;
+  readonly _rightBox?: unknown;
+}
+
+export const requireTopBar = (): TopBarInternals => {
+  const panel = Main.panel as unknown;
+  if (!(panel instanceof St.Widget)) throw new ShellShapeError("Main.panel");
+
+  const { _leftBox, _centerBox, _rightBox } = panel as PanelBoxes;
+  const zones = [_leftBox, _centerBox, _rightBox];
+  if (!zones.every((zone) => zone instanceof St.BoxLayout))
+    throw new ShellShapeError("panel._leftBox, _centerBox, _rightBox");
+
+  return { panel, zones };
 };
 
 export const hasToggleInternals = (actor: Clutter.Actor): actor is ToggleInternals => {
