@@ -30,11 +30,21 @@ export class FeatureSet {
 
   /** Reaplica uma feature ligada (ex.: preferência alterada). */
   restart(id: string): void {
-    const feature = this.features.find((candidate) => candidate.id === id);
-    if (!feature || !this.enabled.has(feature)) return;
+    this.restartAll([id]);
+  }
 
-    this.disable(feature);
-    this.enable(feature);
+  /**
+   * Reaplica várias features ligadas: desliga TODAS (na ordem inversa da lista) antes de
+   * ligar qualquer uma (na ordem da lista). Features que mexem nos mesmos atores não podem
+   * reiniciar uma de cada vez, senão o desfazer de uma devolve o que a outra tirou.
+   */
+  restartAll(ids: readonly string[]): void {
+    const running = this.features.filter(
+      (feature) => ids.includes(feature.id) && this.enabled.has(feature),
+    );
+
+    [...running].reverse().forEach((feature) => this.disable(feature));
+    running.forEach((feature) => this.enable(feature));
   }
 
   private enable(feature: Feature): void {

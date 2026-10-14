@@ -14,21 +14,31 @@ ligar é registrada no log e não é desligada depois; as outras seguem.
 | 4 | `MessagesIndicatorFeature` | Move o indicador de não lidas do relógio para um `SystemIndicator` |
 | 5 | `HeaderLayoutFeature` | Avatar à esquerda; captura de tela e configurações à direita |
 | 6 | `RoundTogglesFeature` | Grade com 4 colunas e toggles redondos |
-| 7 | `TopBarStyleFeature` | Barra superior normal, transparente, ou transparente com fundo em cada zona |
+| 7 | `PillTogglesFeature` | Toggles em pílula fina quando o redondo está desligado |
+| 8 | `TopBarStyleFeature` | Barra superior normal, transparente, ou transparente com fundo em cada zona |
 
-Mudar uma preferência chama `FeatureSet.restart(id)` só da feature afetada
-(`FEATURE_BY_SETTING`). Ao reiniciar, a lista de notificações volta para a grade DEPOIS
+Mudar uma preferência chama `FeatureSet.restartAll(ids)` com as features afetadas
+(`FEATURES_BY_SETTING`): TODAS desligam antes de qualquer uma ligar. O formato dos toggles
+afeta duas features (redondo e pílula) que mexem nos mesmos atores; reiniciando uma de cada
+vez, o desfazer de uma devolvia o subtítulo que a outra tinha tirado. Ao reiniciar, a lista de notificações volta para a grade DEPOIS
 dos toggles redondos; quem a converte para a largura total é o `child-added` que a
 `RoundTogglesFeature` já observa.
 
 ## Formato dos toggles
 
 - Redondo (`round-toggles` ligado): ver a seção abaixo.
-- Pílula (`round-toggles` desligado): o toggle nativo do GNOME 50, sem CSS da extensão. A
-  cor do estado ligado é a cor de destaque do sistema e não é alterada: cada distro (e o
-  usuário) define a sua.
+- Pílula (`round-toggles` desligado): o toggle nativo do GNOME 50, mais fino. A grade ganha
+  `qsn-pill-grid`, cuja regra baixa a altura mínima de 3.273em (tema) para 2.5em, e o
+  subtítulo sai dos toggles de uma coluna (a grade dá a cada linha a altura do toggle mais
+  alto, e um subtítulo engrossava a linha inteira). Nenhuma cor muda: o estado ligado usa
+  a cor de destaque do sistema, que cada distro (e o usuário) define.
+- Os dois formatos usam o `GridItemTracker` (src/feature/grid) para converter os itens de
+  agora e os que entram depois, cada um com a própria pilha de desfazer.
 
 ## Desfazer
+
+Ator nativo que muda de pai volta pelo `insertKeepingVisibility`: o Clutter MOSTRA todo
+ator que ganha um pai (`show-on-set-parent`), e o que estava oculto voltava visível.
 
 `UndoStack` guarda um desfazer por alteração e roda tudo em ordem inversa. `runAll` garante
 que um desfazer com erro não impeça os outros; os erros sobem juntos num `AggregateError`.
@@ -68,9 +78,9 @@ desligar]`. Clicar no avatar fecha o menu e abre `gnome-users-panel.desktop`.
 - Quick Settings: `menu.addItem(section, nColumns)`, no fim da grade.
 - Painel separado: um `St.BoxLayout` com as classes do cartão do Quick Settings
   (`popup-menu-content quick-settings`), filho do `menu.actor` e irmão do `BoxPointer`.
-  Fundo, borda, sombra e recuo vêm do tema. `BindConstraint` (X e largura) e
-  `SnapConstraint` (topo do painel no fundo do `BoxPointer`, 12px de espaço) o prendem
-  logo abaixo; `opacity` e `translation-y` seguem a animação do `BoxPointer`. Como é
+  Fundo, borda, sombra e recuo vêm do tema. Três `BindConstraint` o prendem logo abaixo:
+  X e largura iguais aos do `BoxPointer`, e Y com deslocamento = altura do `BoxPointer` +
+  12px (`resolveSeparatePanelOffset`), atualizado no `notify::height`; `opacity` e `translation-y` seguem a animação do `BoxPointer`. Como é
   filho do `menu.actor`, aparece e some com o menu, está no grupo de foco dele, e o
   clique nele não fecha o menu. Fica acima do `BoxPointer` e abaixo da camada dos
   submenus.

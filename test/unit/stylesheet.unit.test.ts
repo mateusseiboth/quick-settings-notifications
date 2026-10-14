@@ -30,6 +30,29 @@ describe("buildStylesheet", () => {
     expect(selectorsOf(buildStylesheet(ThemeVariant.DARK))).toContain(".qsn-top-bar-zone");
   });
 
+  /**
+   * O tema crava a altura do toggle em `.quick-toggle, .quick-toggle-has-menu` (uma classe).
+   * A regra da pílula fina precisa de mais de uma classe para ganhar.
+   */
+  test("a pílula fina cobre os dois tipos de toggle e ganha da regra do tema", () => {
+    const pill = selectorsOf(buildStylesheet(ThemeVariant.DARK)).filter((selector) =>
+      selector.startsWith(".qsn-pill-grid "),
+    );
+
+    expect(pill).toContain(".qsn-pill-grid .quick-toggle");
+    expect(pill).toContain(".qsn-pill-grid .quick-toggle-has-menu");
+  });
+
+  test("a pílula não muda cor: a cor de destaque é a do sistema", () => {
+    const css = buildStylesheet(ThemeVariant.DARK);
+    const pillRules = [...css.matchAll(/^\.qsn-pill-grid[^{]*\{([^}]*)\}/gm)].map(
+      (match) => match[1] ?? "",
+    );
+
+    expect(pillRules.length).toBeGreaterThan(0);
+    expect(pillRules.filter((rule) => /color/.test(rule))).toEqual([]);
+  });
+
   test("todo seletor começa por uma classe da extensão", () => {
     const selectors = selectorsOf(buildStylesheet(ThemeVariant.DARK));
 

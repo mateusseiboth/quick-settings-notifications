@@ -11,6 +11,7 @@ import Clutter from "gi://Clutter";
 import type Gio from "gi://Gio";
 import St from "gi://St";
 
+import { insertKeepingVisibility } from "@domain/actor/insertKeepingVisibility";
 import { FeatureId } from "@domain/feature/featureId";
 import { UndoableFeature } from "@domain/feature/undoableFeature";
 import { resolveNotificationPlacement } from "@domain/notification/notificationPlacement";
@@ -66,11 +67,11 @@ export class NotificationListFeature extends UndoableFeature {
 
     const index = calendarArea.get_children().indexOf(messageList);
     calendarArea.remove_child(messageList);
-    section.add_child(messageList);
+    insertKeepingVisibility(section, messageList);
 
     this.undo.push(() => {
       section.remove_child(messageList);
-      calendarArea.insert_child_at_index(messageList, index);
+      insertKeepingVisibility(calendarArea, messageList, index);
     });
   }
 

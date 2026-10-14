@@ -52,6 +52,16 @@ Alterou um, replique no outro na mesma tarefa.
   filho dele: o `BoxPointer` desenha o próprio fundo e é redirecionado para fora da tela
   (offscreen). Dentro do `menu.actor` o painel herda abrir/fechar, foco e o clique que não
   fecha o menu.
+- O Clutter MOSTRA todo ator que ganha um pai (`show-on-set-parent`). Mover ou devolver ator
+  nativo só com `insertKeepingVisibility`: sem isso, o subtítulo vazio voltava visível ao
+  sair do modo redondo, e o toggle em pílula ficava com uma linha vazia e o título fora do
+  centro.
+- `SnapConstraint` move só UMA borda (estica o ator). Para posicionar o painel separado
+  abaixo do `BoxPointer` foi preciso `BindConstraint` Y com deslocamento = altura + espaço;
+  com o snap ele ficava com a altura de uma linha e as notificações sumiam.
+- Redondo e pílula mexem nos mesmos toggles. A troca de formato usa
+  `FeatureSet.restartAll` (desliga as duas, depois liga), nunca `restart` uma por vez: o
+  desfazer de uma devolveria o subtítulo que a outra tirou.
 - `#panel` é regra por ID no tema: classe da extensão não ganha. Fundo da barra só por
   estilo inline com desfazer.
 - No modo pílula NÃO se altera a cor do toggle ligado: é a cor de destaque do sistema, que

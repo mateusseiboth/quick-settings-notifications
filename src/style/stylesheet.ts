@@ -10,6 +10,10 @@
  * extensão está ativa: assim nenhuma regra de pílula do tema (fundo, hover, checked)
  * disputa especificidade com estas, e o visual é desenhado do zero aqui.
  *
+ * No modo pílula a grade ganha `qsn-pill-grid` e os toggles nativos ficam com as classes do
+ * tema. Só a ALTURA muda (o tema crava 3.273em com uma classe; aqui são duas, e a regra
+ * ganha). Cor nenhuma: o toggle ligado usa a cor de destaque do sistema.
+ *
  * O fundo das zonas da barra superior é o mesmo nas duas variantes: a barra do GNOME é
  * escura também no tema claro, e o texto dela continua branco. Zona sem item visível tem
  * largura zero e o fundo não aparece (por isso sem `padding`).
@@ -144,6 +148,10 @@ const TEMPLATE = `
 .qsn-notifications {
   width: 25em;
   max-height: 30em;
+}
+
+.qsn-pill-grid .quick-toggle, .qsn-pill-grid .quick-toggle-has-menu {
+  min-height: 2.5em;
 }
 
 .qsn-top-bar-zone {

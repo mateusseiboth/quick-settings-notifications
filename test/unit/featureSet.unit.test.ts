@@ -81,6 +81,33 @@ describe("FeatureSet", () => {
     expect(log).toEqual(["+a", "+b", "-b", "+b"]);
   });
 
+  /**
+   * Duas features que mexem nos mesmos atores (toggles redondos e em pílula) não podem
+   * reiniciar uma de cada vez: o desfazer de uma devolveria o que a outra acabou de tirar.
+   */
+  test("restartAll desliga todas as pedidas antes de ligar qualquer uma", () => {
+    const log: string[] = [];
+    const set = new FeatureSet(
+      [makeFeature("a", log), makeFeature("b", log), makeFeature("c", log)],
+      () => {},
+    );
+    set.enableAll();
+
+    set.restartAll(["c", "a"]);
+
+    expect(log).toEqual(["+a", "+b", "+c", "-c", "-a", "+a", "+c"]);
+  });
+
+  test("restartAll ignora a feature que não estava ligada", () => {
+    const log: string[] = [];
+    const set = new FeatureSet([makeFeature("a", log), makeFeature("b", log, "enable")], () => {});
+    set.enableAll();
+
+    set.restartAll(["a", "b"]);
+
+    expect(log).toEqual(["+a", "-a", "+a"]);
+  });
+
   test("restart de feature desligada não faz nada", () => {
     const log: string[] = [];
     const set = new FeatureSet([makeFeature("a", log)], () => {});

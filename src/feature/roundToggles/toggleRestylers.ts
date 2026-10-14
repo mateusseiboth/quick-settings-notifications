@@ -12,7 +12,9 @@ import Clutter from "gi://Clutter";
 import GObject from "gi://GObject";
 import St from "gi://St";
 
+import { insertKeepingVisibility } from "@domain/actor/insertKeepingVisibility";
 import type { UndoStack } from "@domain/undo/undoStack";
+import { detach, findToggleBody } from "@feature/toggles/toggleParts";
 import {
   hasMenuToggleInternals,
   hasToggleInternals,
@@ -64,15 +66,6 @@ const setProperty = <A extends object, K extends keyof A>(
     (previous) => (target[key] = previous),
   );
 
-const detach = (child: Clutter.Actor, undo: UndoStack): void => {
-  const parent = child.get_parent();
-  if (!parent) return;
-
-  const index = parent.get_children().indexOf(child);
-  parent.remove_child(child);
-  undo.push(() => parent.insert_child_at_index(child, index));
-};
-
 /** Ícone vira círculo, título centralizado embaixo, subtítulo sai (não cabe em 4 colunas). */
 const restyleToggleBody = (toggle: ToggleInternals, undo: UndoStack): void => {
   swapStyleClasses(toggle, THEME_TOGGLE_CLASSES, "qsn-round-toggle", undo);
@@ -119,7 +112,7 @@ const replaceTitleWithMenuLabel = (
 
   setProperty(title, "x_expand", false, undo);
   titleBox.remove_child(title);
-  labelBox.add_child(title);
+  insertKeepingVisibility(labelBox, title);
   labelBox.add_child(arrow);
   titleBox.insert_child_at_index(labelButton, 0);
 
@@ -137,7 +130,7 @@ const replaceTitleWithMenuLabel = (
     binding.unbind();
     labelBox.remove_child(title);
     labelButton.destroy();
-    titleBox.insert_child_at_index(title, 0);
+    insertKeepingVisibility(titleBox, title, 0);
   });
 };
 
@@ -162,10 +155,6 @@ const menuToggleRestyler: ToggleRestyler = {
     replaceTitleWithMenuLabel(menuToggle, body, undo);
   },
 };
-
-/** Dentro do `QuickMenuToggle` existe um `QuickToggle` comum com ícone e títulos. */
-const findToggleBody = (menuToggle: MenuToggleInternals): ToggleInternals | undefined =>
-  menuToggle._box.get_children().find(hasToggleInternals);
 
 /** Ordem importa: o toggle com menu também tem `_box`, então é testado primeiro. */
 export const TOGGLE_RESTYLERS: readonly ToggleRestyler[] = [

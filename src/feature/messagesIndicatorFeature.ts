@@ -11,6 +11,7 @@ import GObject from "gi://GObject";
 import type St from "gi://St";
 import * as QuickSettings from "resource:///org/gnome/shell/ui/quickSettings.js";
 
+import { insertKeepingVisibility } from "@domain/actor/insertKeepingVisibility";
 import { FeatureId } from "@domain/feature/featureId";
 import { UndoableFeature } from "@domain/feature/undoableFeature";
 import { requireDateMenu, requireQuickSettings } from "@infra/gnome/shellInternals";
@@ -48,17 +49,17 @@ export class MessagesIndicatorFeature extends UndoableFeature {
     if (!pad || pad === indicator) return;
 
     clockBox.remove_child(pad);
-    this.undo.push(() => clockBox.insert_child_at_index(pad, 0));
+    this.undo.push(() => insertKeepingVisibility(clockBox, pad, 0));
   }
 
   private moveIndicator(clockBox: Clutter.Actor, indicator: St.Icon, holder: St.Widget): void {
     const index = clockBox.get_children().indexOf(indicator);
     clockBox.remove_child(indicator);
-    holder.add_child(indicator);
+    insertKeepingVisibility(holder, indicator);
 
     this.undo.push(() => {
       holder.remove_child(indicator);
-      clockBox.insert_child_at_index(indicator, index);
+      insertKeepingVisibility(clockBox, indicator, index);
     });
   }
 

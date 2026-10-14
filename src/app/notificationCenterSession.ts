@@ -14,6 +14,7 @@ import { HeaderLayoutFeature } from "@feature/headerLayoutFeature";
 import { MessagesIndicatorFeature } from "@feature/messagesIndicatorFeature";
 import { MessageTrayShortcutFeature } from "@feature/messageTrayShortcutFeature";
 import { NotificationListFeature } from "@feature/notificationListFeature";
+import { PillTogglesFeature } from "@feature/pillTogglesFeature";
 import { RoundTogglesFeature } from "@feature/roundTogglesFeature";
 import { TopBarStyleFeature } from "@feature/topBarStyleFeature";
 import { SettingsKey } from "@infra/gnome/settingsKeys";
@@ -26,15 +27,19 @@ export const createFeatures = (settings: Gio.Settings): Feature[] => [
   new MessagesIndicatorFeature(),
   new HeaderLayoutFeature(),
   new RoundTogglesFeature(settings),
+  new PillTogglesFeature(settings),
   new TopBarStyleFeature(settings),
 ];
 
-/** Preferência alterada -> feature reaplicada. */
-const FEATURE_BY_SETTING: Record<SettingsKey, FeatureId> = {
-  [SettingsKey.BANNER_POSITION]: FeatureId.BANNER_POSITION,
-  [SettingsKey.ROUND_TOGGLES]: FeatureId.ROUND_TOGGLES,
-  [SettingsKey.SEPARATE_NOTIFICATION_PANEL]: FeatureId.NOTIFICATION_LIST,
-  [SettingsKey.TOP_BAR_STYLE]: FeatureId.TOP_BAR_STYLE,
+/**
+ * Preferência alterada -> features reaplicadas JUNTAS (`restartAll`). Redondo e pílula mexem
+ * nos mesmos toggles: as duas desligam antes de qualquer uma ligar.
+ */
+const FEATURES_BY_SETTING: Record<SettingsKey, readonly FeatureId[]> = {
+  [SettingsKey.BANNER_POSITION]: [FeatureId.BANNER_POSITION],
+  [SettingsKey.ROUND_TOGGLES]: [FeatureId.ROUND_TOGGLES, FeatureId.PILL_TOGGLES],
+  [SettingsKey.SEPARATE_NOTIFICATION_PANEL]: [FeatureId.NOTIFICATION_LIST],
+  [SettingsKey.TOP_BAR_STYLE]: [FeatureId.TOP_BAR_STYLE],
 };
 
 const logFeatureError = (id: string, phase: FeaturePhase, error: unknown): void =>
@@ -50,8 +55,8 @@ export class NotificationCenterSession {
 
   start(): void {
     this.features.enableAll();
-    this.settingIds = Object.entries(FEATURE_BY_SETTING).map(([key, featureId]) =>
-      this.settings.connect(`changed::${key}`, () => this.features.restart(featureId)),
+    this.settingIds = Object.entries(FEATURES_BY_SETTING).map(([key, featureIds]) =>
+      this.settings.connect(`changed::${key}`, () => this.features.restartAll(featureIds)),
     );
   }
 

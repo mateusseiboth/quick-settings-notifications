@@ -25,8 +25,9 @@ mantêm o visual original. Só os toggles de uma coluna viram redondos.
 ## Preferências
 
 - Posição do aviso de notificação: topo à esquerda, ao centro ou à direita (padrão direita).
-- Botões rápidos redondos: ligado, toggles redondos em quatro colunas. Desligado, os
-  toggles em pílula do GNOME, com a cor de destaque do sistema.
+- Botões rápidos redondos: ligado, toggles redondos em quatro colunas. Desligado, pílulas
+  finas de uma linha, com a cor de destaque do sistema. O subtítulo (nome da rede, modo de
+  energia) sai da pílula e continua no menu de cada toggle.
 - Notificações em um painel separado: a lista sai do fim do Quick Settings e vai para um
   cartão próprio logo abaixo dele, com o mesmo visual do tema (padrão desligado).
 - Barra superior: padrão, transparente, ou transparente com fundo em cada grupo.
