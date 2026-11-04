@@ -26,6 +26,17 @@ describe("buildStylesheet", () => {
     }
   });
 
+  /**
+   * O tema pinta a barra em `#panel` (um id). Classe + id ganha dele. Estilo inline não
+   * serve: o Shell zera `Main.panel.style` ao fim da animação de início e ao fechar o overview.
+   */
+  test("a barra transparente ganha da regra por id do tema", () => {
+    const css = buildStylesheet(ThemeVariant.DARK);
+    const rule = css.match(/^\.qsn-transparent-top-bar#panel \{([^}]*)\}/m);
+
+    expect(rule?.[1]).toContain("background-color: transparent;");
+  });
+
   test("as zonas da barra superior ganham fundo arredondado", () => {
     expect(selectorsOf(buildStylesheet(ThemeVariant.DARK))).toContain(".qsn-top-bar-zone");
   });

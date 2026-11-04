@@ -14,6 +14,10 @@
  * tema. Só a ALTURA muda (o tema crava 3.273em com uma classe; aqui são duas, e a regra
  * ganha). Cor nenhuma: o toggle ligado usa a cor de destaque do sistema.
  *
+ * A barra transparente usa classe + id (`.qsn-transparent-top-bar#panel`): o tema pinta
+ * `#panel` por id, e só classe não ganha dele. Estilo inline não serve, porque o Shell 51 zera
+ * `Main.panel.style` ao fim da animação de início e toda vez que o overview fecha.
+ *
  * O fundo das zonas da barra superior é o mesmo nas duas variantes: a barra do GNOME é
  * escura também no tema claro, e o texto dela continua branco. Zona sem item visível tem
  * largura zero e o fundo não aparece (por isso sem `padding`).
@@ -152,6 +156,10 @@ const TEMPLATE = `
 
 .qsn-pill-grid .quick-toggle, .qsn-pill-grid .quick-toggle-has-menu {
   min-height: 2.5em;
+}
+
+.qsn-transparent-top-bar#panel {
+  background-color: transparent;
 }
 
 .qsn-top-bar-zone {

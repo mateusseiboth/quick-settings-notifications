@@ -62,5 +62,5 @@ Arquitetura, internos do Shell que a extensão toca e as decisões estão em `do
 - O painel de notificações separado não é reposicionado pelo Shell: em tela baixa, com o
   Quick Settings alto e muitas notificações, a parte de baixo pode passar da borda. A lista
   rola por dentro a partir de 30em.
-- A barra transparente usa estilo inline no `#panel`. Extensões que também mexem no fundo
-  da barra (blur-my-shell, transparent-top-bar) podem disputar com ela.
+- A barra transparente usa a classe `qsn-transparent-top-bar` no `#panel`. Extensões que
+  também mexem no fundo da barra (blur-my-shell, transparent-top-bar) podem disputar com ela.

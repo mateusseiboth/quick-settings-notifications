@@ -101,9 +101,10 @@ calendário usa para recolher um grupo expandido ao clicar fora (`captured-event
 
 `TopBarStyleFeature` aplica as mudanças que o estilo pede (`resolveTopBarLook`):
 
-- Fundo transparente: estilo INLINE `background-color: transparent` no `Main.panel`,
-  somado ao estilo inline que já houver. A regra `#panel` do tema é por id e ganha de
-  qualquer classe da folha da extensão.
+- Fundo transparente: a classe `qsn-transparent-top-bar` no `Main.panel`, com a regra
+  `.qsn-transparent-top-bar#panel`. A regra `#panel` do tema é por id e ganha de classe
+  sozinha; classe + id ganha dela. Estilo inline NÃO serve: o Shell 51 zera
+  `Main.panel.style` ao fim da animação de início e toda vez que o overview fecha.
 - Zonas: a classe `qsn-top-bar-zone` nas três caixas da barra (`_leftBox`, `_centerBox`,
   `_rightBox`): fundo escuro translúcido e cantos redondos. O `Panel` aloca cada caixa com
   a largura natural dela, então o fundo abraça só os botões. Caixa sem item visível tem

@@ -62,8 +62,9 @@ Alterou um, replique no outro na mesma tarefa.
 - Redondo e pílula mexem nos mesmos toggles. A troca de formato usa
   `FeatureSet.restartAll` (desliga as duas, depois liga), nunca `restart` uma por vez: o
   desfazer de uma devolveria o subtítulo que a outra tirou.
-- `#panel` é regra por ID no tema: classe da extensão não ganha. Fundo da barra só por
-  estilo inline com desfazer.
+- `#panel` é regra por ID no tema: classe sozinha não ganha, `.qsn-x#panel` (classe + id)
+  ganha. Fundo da barra NUNCA por estilo inline: o Shell 51 zera `Main.panel.style` ao fim da
+  animação de início e ao fechar o overview (overview.js), e a barra voltava preta.
 - No modo pílula NÃO se altera a cor do toggle ligado: é a cor de destaque do sistema, que
   muda por distro e por usuário.
 - Typecheck em três projetos pelo mesmo motivo do gnome-spotlight (o `global` do Node no
