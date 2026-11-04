@@ -1,6 +1,6 @@
 # Notificações no Quick Settings
 
-Extensão do GNOME Shell 50 que segue o mockup "Quick Toggles" do GNOME Design:
+Extensão do GNOME Shell 50 e 51 que segue o mockup "Quick Toggles" do GNOME Design:
 
 - As notificações saem do calendário e vão para o fim do Quick Settings, agrupadas por app.
   Clicar num grupo mostra as demais notificações dele, como no calendário. Sem notificação,
@@ -53,7 +53,7 @@ Arquitetura, internos do Shell que a extensão toca e as decisões estão em `do
 
 ## Limitações
 
-- Testada só no GNOME Shell 50.5. A extensão mexe em atores internos (`_messageList`,
+- Testada no GNOME Shell 50.5 e 51.1. A extensão mexe em atores internos (`_messageList`,
   `_grid`, `_box` dos toggles). Se uma versão nova mudar algum deles, aquela parte falha com
   mensagem no log e as outras continuam funcionando.
 - O subtítulo dos toggles (nome da rede Wi-Fi, dispositivo Bluetooth) some no formato
