@@ -1,13 +1,3 @@
-/**
- * Reestilo de cada tipo de toggle para o formato redondo (strategy por tipo):
- *
- *        ( ícone )        círculo clicável: liga e desliga, como antes
- *        Título ▾         só nos toggles com menu: abre o menu, como a seta de antes
- *
- * Tudo o que é alterado registra o desfazer na `UndoStack` recebida. As classes do tema
- * (`quick-toggle`, `button`, `quick-toggle-has-menu`) saem enquanto a extensão está
- * ativa, para que o visual de pílula do tema não dispute com o CSS da extensão.
- */
 import Clutter from "gi://Clutter";
 import GObject from "gi://GObject";
 import St from "gi://St";
@@ -66,7 +56,6 @@ const setProperty = <A extends object, K extends keyof A>(
     (previous) => (target[key] = previous),
   );
 
-/** Ícone vira círculo, título centralizado embaixo, subtítulo sai (não cabe em 4 colunas). */
 const restyleToggleBody = (toggle: ToggleInternals, undo: UndoStack): void => {
   swapStyleClasses(toggle, THEME_TOGGLE_CLASSES, "qsn-round-toggle", undo);
 
@@ -86,7 +75,6 @@ const restyleToggleBody = (toggle: ToggleInternals, undo: UndoStack): void => {
   detach(toggle._subtitle, undo);
 };
 
-/** Troca o título por um botão "Título ▾" que abre o menu do toggle. */
 const replaceTitleWithMenuLabel = (
   menuToggle: MenuToggleInternals,
   body: ToggleInternals,
@@ -156,7 +144,6 @@ const menuToggleRestyler: ToggleRestyler = {
   },
 };
 
-/** Ordem importa: o toggle com menu também tem `_box`, então é testado primeiro. */
 export const TOGGLE_RESTYLERS: readonly ToggleRestyler[] = [
   menuToggleRestyler,
   plainToggleRestyler,

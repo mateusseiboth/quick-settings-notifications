@@ -1,7 +1,3 @@
-/**
- * Preferências (GTK 4 + libadwaita): posição do banner, formato dos botões rápidos, painel
- * de notificações separado e estilo da barra superior.
- */
 import Adw from "gi://Adw";
 import Gio from "gi://Gio";
 import Gtk from "gi://Gtk";

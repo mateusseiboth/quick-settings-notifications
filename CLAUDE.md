@@ -1,7 +1,7 @@
 # quick-settings-notifications
 
-Extensão do GNOME Shell 50 em TypeScript 7, empacotada com `bun build`. Leia `doc/` antes de
-mexer.
+Extensão do GNOME Shell 50 e 51 em TypeScript 7, publicada no extensions.gnome.org. Leia
+`doc/` antes de mexer.
 
 ## Regras deste repositório
 
@@ -18,13 +18,22 @@ mexer.
 - Imports por alias (`tsconfig.base.json` e `bunfig.toml`). CSS só no molde de
   `src/style/stylesheet.ts`, todo seletor começando por `.qsn-` (o teste reprova).
 - Texto de tela em inglês no código com `_("...")`, traduzido em `po/pt_BR.po`.
+- O build transpila cada módulo alcançável a partir de `extension.ts` e `prefs.ts` para um
+  `.js` em `dist/`, troca o alias por caminho relativo (`scripts/build/moduleTranspiler.ts`)
+  e formata com o oxfmt. Nada de bundle em arquivo único: o revisor do extensions.gnome.org
+  lê o `dist/`.
+- `src/` não tem comentário (o teste `sourceComments` reprova). O porquê das decisões mora em
+  `doc/` e nas armadilhas abaixo.
 - Portão de saída: `bun run format:check && bun run lint && bun run typecheck && bun test`.
+- Envio: `bun run pack` gera o zip sem `gschemas.compiled` (o Shell compila ao instalar).
 
 ## Duplicado de propósito
 
-`scripts/i18n/messageCatalog.ts`, `scripts/install.ts`, o esqueleto de `scripts/build.ts`,
-as configs de oxlint/oxfmt e `src/types/*.d.ts` existem iguais no repositório
-`gnome-spotlight`. São dois repositórios independentes e ainda não há pacote compartilhado.
+`scripts/i18n/messageCatalog.ts`, `scripts/install.ts`, `scripts/build.ts`,
+`scripts/pack.ts`, `scripts/build/moduleTranspiler.ts` (e o teste dele), o teste
+`sourceComments`, as configs de oxlint/oxfmt e `src/types/*.d.ts` existem iguais no
+repositório `gnome-spotlight`. São dois repositórios independentes e ainda não há pacote
+compartilhado.
 Alterou um, replique no outro na mesma tarefa.
 
 ## Armadilhas
@@ -60,8 +69,8 @@ Alterou um, replique no outro na mesma tarefa.
   abaixo do `BoxPointer` foi preciso `BindConstraint` Y com deslocamento = altura + espaço;
   com o snap ele ficava com a altura de uma linha e as notificações sumiam.
 - Redondo e pílula mexem nos mesmos toggles. A troca de formato usa
-  `FeatureSet.restartAll` (desliga as duas, depois liga), nunca `restart` uma por vez: o
-  desfazer de uma devolveria o subtítulo que a outra tirou.
+  `FeatureSet.restartAll` com as duas ids na mesma chamada (desliga as duas, depois liga),
+  nunca uma chamada por feature: o desfazer de uma devolveria o subtítulo que a outra tirou.
 - `#panel` é regra por ID no tema: classe sozinha não ganha, `.qsn-x#panel` (classe + id)
   ganha. Fundo da barra NUNCA por estilo inline: o Shell 51 zera `Main.panel.style` ao fim da
   animação de início e ao fechar o overview (overview.js), e a barra voltava preta.

@@ -1,14 +1,3 @@
-/**
- * Aplica uma conversão em cada item da grade do Quick Settings: nos de agora e nos que
- * entrarem depois (outra extensão ligando).
- *
- * O item novo espera o próximo quadro porque o `QuickSettingsMenu.addItem` adiciona o ator
- * à grade ANTES de gravar o `column-span` dele: converter no `child-added` leria (e
- * gravaria) o valor errado.
- *
- * Cada item tem a própria pilha de desfazer: se ele for destruído antes (a extensão dona
- * desligou), a pilha é descartada em vez de tentar mexer num ator morto.
- */
 import type Clutter from "gi://Clutter";
 import Meta from "gi://Meta";
 
@@ -26,7 +15,6 @@ export class GridItemTracker {
     private readonly convert: ConvertGridItem,
   ) {}
 
-  /** Converte os itens e registra em `undo` como desfazer tudo e parar de observar. */
   track(undo: UndoStack): void {
     undo.push(() => this.undoAllItems());
     this.quickSettings.grid.get_children().forEach((item) => this.convertItem(item));
@@ -65,7 +53,6 @@ export class GridItemTracker {
     this.convert(item, undo);
   }
 
-  /** Um item que falhe ao desfazer não pode deixar os outros convertidos. */
   private undoAllItems(): void {
     const stacks = [...this.itemUndos.values()];
     this.itemUndos.clear();
@@ -76,6 +63,5 @@ export class GridItemTracker {
   }
 }
 
-/** `column-span` do item na grade. */
 export const readColumnSpan = ({ grid, layout }: QuickSettingsInternals, item: Clutter.Actor) =>
   (layout.get_child_meta(grid, item) as Clutter.LayoutMeta & { column_span: number }).column_span;

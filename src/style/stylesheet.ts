@@ -1,28 +1,3 @@
-/**
- * Folha de estilo da extensão. UM molde, tokens por variante (strategy map); o build grava
- * `stylesheet-dark.css`, `stylesheet-light.css` e `stylesheet.css` (fallback = escuro).
- *
- * A grade tem LARGURA FIXA (a mesma do Quick Settings original: 2 x 12em + espaço). Sem
- * isso, qualquer texto comprido de um item (rótulo com reticências ainda declara a largura
- * do texto inteiro) esticava as quatro colunas e o painel ficava enorme.
- *
- * Os toggles redondos PERDEM as classes `quick-toggle`/`button` do tema enquanto a
- * extensão está ativa: assim nenhuma regra de pílula do tema (fundo, hover, checked)
- * disputa especificidade com estas, e o visual é desenhado do zero aqui.
- *
- * No modo pílula a grade ganha `qsn-pill-grid` e os toggles nativos ficam com as classes do
- * tema. Só a ALTURA muda (o tema crava 3.273em com uma classe; aqui são duas, e a regra
- * ganha). Cor nenhuma: o toggle ligado usa a cor de destaque do sistema.
- *
- * A barra transparente usa classe + id (`.qsn-transparent-top-bar#panel`): o tema pinta
- * `#panel` por id, e só classe não ganha dele. Estilo inline não serve, porque o Shell 51 zera
- * `Main.panel.style` ao fim da animação de início e toda vez que o overview fecha.
- *
- * O fundo das zonas da barra superior é o mesmo nas duas variantes: a barra do GNOME é
- * escura também no tema claro, e o texto dela continua branco. Zona sem item visível tem
- * largura zero e o fundo não aparece (por isso sem `padding`).
- */
-
 export const ThemeVariant = {
   DARK: "dark",
   LIGHT: "light",

@@ -1,11 +1,3 @@
-/**
- * O ponto de "notificação não lida" ao lado do relógio vira um sino junto aos ícones do
- * Quick Settings, onde as notificações estão agora (como no mockup).
- *
- * O ícone movido é o `MessagesIndicator` nativo, que continua decidindo quando aparece
- * (não lidas, respeitando o "Não perturbe"). O espaçador que centralizava o relógio sai
- * junto, senão o relógio ficaria deslocado.
- */
 import type Clutter from "gi://Clutter";
 import GObject from "gi://GObject";
 import type St from "gi://St";

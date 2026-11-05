@@ -1,7 +1,3 @@
-/**
- * Ponto de entrada: notificações no Quick Settings, toggles redondos e banner no topo
- * direito. Toda a montagem está em `NotificationCenterSession`.
- */
 import { Extension } from "resource:///org/gnome/shell/extensions/extension.js";
 
 import { NotificationCenterSession } from "@app/notificationCenterSession";

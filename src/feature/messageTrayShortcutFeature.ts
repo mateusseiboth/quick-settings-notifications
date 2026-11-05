@@ -1,7 +1,3 @@
-/**
- * Super+V ("mostrar a lista de notificações") passa a abrir o Quick Settings, que é onde
- * as notificações ficam agora. Ao desligar, volta a abrir o calendário.
- */
 import Shell from "gi://Shell";
 import * as Main from "resource:///org/gnome/shell/ui/main.js";
 
@@ -10,7 +6,6 @@ import { UndoableFeature } from "@domain/feature/undoableFeature";
 
 const KEYBINDING = "toggle-message-tray";
 
-/** Mesmos modos com que o windowManager.js registra o atalho. */
 const ACTION_MODES = Shell.ActionMode.NORMAL | Shell.ActionMode.OVERVIEW | Shell.ActionMode.POPUP;
 
 export class MessageTrayShortcutFeature extends UndoableFeature {

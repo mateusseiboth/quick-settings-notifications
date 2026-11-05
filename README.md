@@ -46,8 +46,14 @@ No Wayland a extensão nova só carrega depois de sair e entrar na sessão.
 
 ```bash
 bun run format:check && bun run lint && bun run typecheck && bun test
-bun run build
+bun run build   # dist/ pronto para o Shell
+bun run pack    # build + zip para o extensions.gnome.org
 ```
+
+O build transpila cada módulo de `src/` para um `.js` em `dist/` (mesma árvore, imports
+relativos, sem comentários) e formata com o oxfmt, para o código enviado ficar legível na
+revisão. O `pack` gera `quick-settings-notifications@mateusseiboth.github.io.shell-extension.zip`
+sem o `gschemas.compiled`: o Shell compila o schema ao instalar pelo site.
 
 Arquitetura, internos do Shell que a extensão toca e as decisões estão em `doc/`.
 
@@ -64,3 +70,7 @@ Arquitetura, internos do Shell que a extensão toca e as decisões estão em `do
   rola por dentro a partir de 30em.
 - A barra transparente usa a classe `qsn-transparent-top-bar` no `#panel`. Extensões que
   também mexem no fundo da barra (blur-my-shell, transparent-top-bar) podem disputar com ela.
+
+## Licença
+
+GPL-2.0-or-later. Texto em `LICENSE`.

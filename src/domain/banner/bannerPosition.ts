@@ -1,8 +1,3 @@
-/**
- * Posição do banner de notificação (preferência) e o alinhamento horizontal que ela pede.
- * O banner já nasce no topo; só o eixo horizontal muda.
- */
-
 export const BannerPosition = {
   TOP_LEFT: "top-left",
   TOP_CENTER: "top-center",

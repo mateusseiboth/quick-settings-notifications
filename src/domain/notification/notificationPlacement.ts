@@ -1,8 +1,3 @@
-/**
- * Onde a lista de notificações fica: no fim da grade do Quick Settings, ou num painel
- * próprio logo abaixo dele (mockup com os players de mídia em cartões separados).
- */
-
 export const NotificationPlacement = {
   QUICK_SETTINGS: "quick-settings",
   SEPARATE_PANEL: "separate-panel",
@@ -16,12 +11,10 @@ export interface NotificationPlacementPreference {
 
 export interface SeparatePanelOffsetInput {
   readonly quickSettingsHeight: number;
-  /** Espaço entre os dois cartões, em pixels lógicos. */
   readonly gap: number;
   readonly scale: number;
 }
 
-/** Distância do topo do Quick Settings até o topo do painel separado. */
 export const resolveSeparatePanelOffset = ({
   quickSettingsHeight,
   gap,

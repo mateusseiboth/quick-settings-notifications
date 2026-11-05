@@ -1,12 +1,3 @@
-/**
- * Acesso aos internos do GNOME Shell 50 que as features alteram. Cada contrato aqui é o
- * MÍNIMO que a feature usa (ISP), e cada `require*` confere a forma antes de devolver:
- * se uma versão nova do Shell mudar o ator, a feature falha com mensagem clara no log em
- * vez de quebrar outra coisa no meio do caminho.
- *
- * Fontes conferidas: js/ui/quickSettings.js, js/ui/dateMenu.js, js/ui/calendar.js e
- * js/ui/panel.js do gnome-shell 50.5.
- */
 import type Clutter from "gi://Clutter";
 import St from "gi://St";
 import * as Main from "resource:///org/gnome/shell/ui/main.js";
@@ -19,31 +10,26 @@ export class ShellShapeError extends Error {
   }
 }
 
-/** `MessageView` (messageList.js, um St.Viewport): `empty` avisa quando não há notificação nem mídia. */
 export interface MessageViewInternals extends St.Widget {
   readonly empty: boolean;
 }
 
-/** `CalendarMessageList` (calendar.js): a lista de notificações com agrupamento por app. */
 export interface MessageListInternals extends St.Widget {
   readonly _messageView: MessageViewInternals;
   readonly _clearButton: St.Button;
   maybeCollapseMessageGroupForEvent(event: Clutter.Event): boolean;
 }
 
-/** Partes do `DateMenuButton` (dateMenu.js) que a extensão move. */
 export interface DateMenuInternals {
   readonly _messageList: MessageListInternals;
   readonly _indicator: St.Icon;
 }
 
-/** `QuickSettingsLayout` (quickSettings.js): grade com número de colunas e "column-span". */
 export interface QuickSettingsLayoutInternals extends Clutter.LayoutManager {
   nColumns: number;
   readonly _overlay: Clutter.Actor;
 }
 
-/** Corpo comum de `QuickToggle`: caixa com ícone e caixa de títulos. */
 export interface ToggleInternals extends St.Button {
   readonly _box: St.BoxLayout;
   readonly _icon: St.Icon;
@@ -51,7 +37,6 @@ export interface ToggleInternals extends St.Button {
   readonly _subtitle: St.Label;
 }
 
-/** `QuickMenuToggle`: o toggle de dentro + separador + botão da seta. */
 export interface MenuToggleInternals extends St.Button {
   readonly _box: St.BoxLayout;
   readonly _menuButton: St.Button;
@@ -59,7 +44,6 @@ export interface MenuToggleInternals extends St.Button {
   readonly menu: { open(): void };
 }
 
-/** `SystemItem` (status/system.js): cabeçalho com bateria, botões e dois espaçadores. */
 export interface SystemItemInternals extends St.Widget {
   readonly child: St.BoxLayout;
   readonly _laptopSpacer: Clutter.Actor;
@@ -100,11 +84,6 @@ export const requireQuickSettings = (): QuickSettingsInternals => {
   return { button, menu, grid, layout };
 };
 
-/**
- * O que fica por fora do cartão do Quick Settings: `menu.actor` é um `St.Widget` de
- * tamanho zero que segura o `BoxPointer` (o cartão desenhado) e a camada dos submenus.
- * Ator filho dele aparece e some com o menu e pertence ao mesmo grupo de foco.
- */
 export interface QuickSettingsPopupInternals {
   readonly container: St.Widget;
   readonly boxPointer: St.Widget;
@@ -119,7 +98,6 @@ export const requireQuickSettingsPopup = (menu: QuickSettingsMenu): QuickSetting
   return { container, boxPointer };
 };
 
-/** `Panel` (panel.js): a barra superior e as três caixas (esquerda, centro e direita). */
 export interface TopBarInternals {
   readonly panel: St.Widget;
   readonly zones: readonly St.BoxLayout[];

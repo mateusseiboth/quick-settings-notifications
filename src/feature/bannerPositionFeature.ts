@@ -1,7 +1,3 @@
-/**
- * Move o banner de notificação recebida para o canto escolhido (padrão: topo direito).
- * Usa o `bannerAlignment` público do `MessageTray`.
- */
 import Clutter from "gi://Clutter";
 import type Gio from "gi://Gio";
 import * as Main from "resource:///org/gnome/shell/ui/main.js";

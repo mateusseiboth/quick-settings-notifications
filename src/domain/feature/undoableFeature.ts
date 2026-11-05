@@ -1,7 +1,3 @@
-/**
- * Base das features que alteram atores do Shell: cada alteração do `apply()` registra o
- * seu desfazer em `this.undo`. Falha no meio do `apply()` desfaz o que já foi feito.
- */
 import type { Feature } from "@domain/feature/feature";
 import { UndoStack } from "@domain/undo/undoStack";
 

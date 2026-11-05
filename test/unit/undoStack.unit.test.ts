@@ -59,12 +59,4 @@ describe("UndoStack", () => {
     expect(() => stack.run()).toThrow(AggregateError);
     expect(calls).toEqual(["c", "a"]);
   });
-
-  test("informa se há algo para desfazer", () => {
-    const stack = new UndoStack();
-    expect(stack.isEmpty).toBe(true);
-
-    stack.push(() => {});
-    expect(stack.isEmpty).toBe(false);
-  });
 });

@@ -1,12 +1,3 @@
-/**
- * Tira a lista de notificações do calendário e a coloca no fim do Quick Settings, ou num
- * painel separado logo abaixo dele (preferência; ver `SECTION_HOSTS`).
- *
- * O ator movido é o PRÓPRIO `CalendarMessageList` do Shell, não uma cópia: agrupamento por
- * app, expansão do grupo ao clicar, player de mídia e "Limpar" continuam sendo o código
- * nativo. Lista vazia esconde a seção inteira, e o "Limpar" vai para a direita. Ao
- * desligar, a lista volta para a mesma posição no calendário.
- */
 import Clutter from "gi://Clutter";
 import type Gio from "gi://Gio";
 import St from "gi://St";
@@ -15,7 +6,6 @@ import { insertKeepingVisibility } from "@domain/actor/insertKeepingVisibility";
 import { FeatureId } from "@domain/feature/featureId";
 import { UndoableFeature } from "@domain/feature/undoableFeature";
 import { resolveNotificationPlacement } from "@domain/notification/notificationPlacement";
-import { isNotificationSectionVisible } from "@domain/notification/notificationVisibility";
 import { SECTION_HOSTS } from "@feature/notificationList/sectionHosts";
 import { SettingsKey } from "@infra/gnome/settingsKeys";
 import {
@@ -75,12 +65,6 @@ export class NotificationListFeature extends UndoableFeature {
     });
   }
 
-  /**
-   * No calendário a lista tem margem, recuo e borda à direita (`.message-list:ltr`) e o
-   * `MessageView` reserva 12px para a barra de rolagem (`.message-view:ltr`). No Quick
-   * Settings isso vira um vão à direita do cartão. Estilo INLINE porque a regra do tema
-   * venceu a da folha da extensão.
-   */
   private removeCalendarSpacing(messageList: MessageListInternals): void {
     this.setInlineStyle(messageList, "margin: 0; padding: 0; border-width: 0;");
     this.setInlineStyle(messageList._messageView, "margin: 0;");
@@ -100,10 +84,9 @@ export class NotificationListFeature extends UndoableFeature {
     );
   }
 
-  /** `host` é a seção (na grade) ou o painel separado inteiro. */
   private hideWhenEmpty(messageList: MessageListInternals, host: St.Widget): void {
     const view = messageList._messageView;
-    const sync = () => (host.visible = isNotificationSectionVisible({ isEmpty: view.empty }));
+    const sync = () => (host.visible = !view.empty);
 
     const id = view.connect("notify::empty", sync);
     sync();
@@ -122,7 +105,6 @@ export class NotificationListFeature extends UndoableFeature {
     );
   }
 
-  /** O calendário faz o mesmo: clique fora do grupo expandido recolhe o grupo. */
   private collapseGroupsOnOutsideClick(
     menuActor: Clutter.Actor,
     collapse: (event: Clutter.Event) => boolean,

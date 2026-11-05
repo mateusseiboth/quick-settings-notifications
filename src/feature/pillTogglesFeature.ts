@@ -1,15 +1,3 @@
-/**
- * Toggles em pílula FINA (mockup "Quick Toggles"), quando o formato redondo está desligado.
- *
- * O toggle continua o nativo, com as classes e as cores do tema (o ligado usa a cor de
- * destaque do sistema). Duas mudanças:
- *
- * - a grade ganha `qsn-pill-grid`, cuja regra baixa a altura mínima do toggle;
- * - o subtítulo sai dos toggles de UMA coluna. Uma linha a mais num toggle deixava a linha
- *   inteira da grade mais alta. O detalhe (rede, modo de energia) continua no menu dele.
- *
- * Itens que ocupam a largura toda ficam como estão, igual ao formato redondo.
- */
 import type Clutter from "gi://Clutter";
 import type Gio from "gi://Gio";
 

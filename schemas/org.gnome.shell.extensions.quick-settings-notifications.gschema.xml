@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Os nomes das chaves espelham src/infra/gnome/settingsKeys.ts. -->
 <schemalist gettext-domain="quick-settings-notifications">
   <schema id="org.gnome.shell.extensions.quick-settings-notifications" path="/org/gnome/shell/extensions/quick-settings-notifications/">
     <key name="banner-position" type="s">

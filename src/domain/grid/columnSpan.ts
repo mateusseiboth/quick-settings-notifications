@@ -1,12 +1,3 @@
-/**
- * Onde cada item fica quando a grade do Quick Settings muda de 2 para 4 colunas.
- *
- * Só o toggle que ocupava UMA coluna vira redondo. O que ocupava a largura toda continua
- * assim e sem reestilo: o "aplicativos em segundo plano" é um QuickToggle de largura
- * total, e reduzi-lo a uma coluna fazia o texto dele esticar as 4 colunas.
- */
-
-/** Toggles redondos: quatro por linha, como no mockup do GNOME Design. */
 export const ROUND_TOGGLE_COLUMNS = 4;
 
 export const GridPlacement = {

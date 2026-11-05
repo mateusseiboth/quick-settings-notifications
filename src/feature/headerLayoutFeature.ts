@@ -1,12 +1,3 @@
-/**
- * Cabeçalho do Quick Settings como no mockup: avatar do usuário à esquerda (abre as
- * configurações de usuários) e captura de tela + configurações junto do cadeado e do
- * desligar, à direita.
- *
- * O cabeçalho nativo tem dois espaçadores, um para notebook (depois da bateria) e outro
- * para desktop (antes do cadeado), e só um fica visível. Encostar o de desktop logo depois
- * do de notebook joga os quatro botões para a direita nos dois casos.
- */
 import AccountsService from "gi://AccountsService";
 import Clutter from "gi://Clutter";
 import GLib from "gi://GLib";
@@ -23,7 +14,6 @@ import {
   type SystemItemInternals,
 } from "@infra/gnome/shellInternals";
 
-/** `Avatar` existe no userWidget.js do Shell 50, mas o `@girs/gnome-shell` 50.0.4 não o declara. */
 interface AvatarWidget extends St.Bin {
   update(): void;
 }
@@ -33,11 +23,6 @@ type AvatarConstructor = new (
 ) => AvatarWidget;
 const { Avatar } = UserWidget as unknown as { Avatar: AvatarConstructor };
 
-/**
- * Mesma altura dos botões redondos do cabeçalho. A classe `user-icon` do tema NÃO é usada:
- * ela crava `icon-size: 64px`, o `Avatar` lê esse valor do tema e o cabeçalho inteiro
- * esticava junto.
- */
 const AVATAR_SIZE = 32;
 const USERS_PANEL = "gnome-users-panel.desktop";
 

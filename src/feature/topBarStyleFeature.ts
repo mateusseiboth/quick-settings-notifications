@@ -1,13 +1,3 @@
-/**
- * Barra superior normal, transparente, ou transparente com um fundo arredondado em volta de
- * cada zona (atividades, relógio, ícones e Quick Settings).
- *
- * Tudo por CLASSE. O fundo da barra NÃO pode ser estilo inline: o Shell 51 zera
- * `Main.panel.style` ao fim da animação de início e toda vez que o overview fecha
- * (overview.js), e a barra voltava preta. A regra `.qsn-transparent-top-bar#panel` (classe +
- * id) ganha do `#panel` do tema. As zonas recebem `qsn-top-bar-zone`; o tema não estiliza as
- * caixas `panelLeft`, `panelCenter` e `panelRight`, então a classe basta.
- */
 import type Gio from "gi://Gio";
 import type St from "gi://St";
 

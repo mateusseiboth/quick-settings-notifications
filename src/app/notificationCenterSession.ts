@@ -1,10 +1,3 @@
-/**
- * Raiz de composição (factory): cria as features na ordem certa e reaplica a que depende
- * de uma preferência quando ela muda.
- *
- * A ordem importa: a lista de notificações entra na grade ANTES dos toggles redondos, para
- * que a conversão de colunas a encontre e a estique para a largura total.
- */
 import type Gio from "gi://Gio";
 
 import type { Feature } from "@domain/feature/feature";
@@ -31,10 +24,6 @@ export const createFeatures = (settings: Gio.Settings): Feature[] => [
   new TopBarStyleFeature(settings),
 ];
 
-/**
- * Preferência alterada -> features reaplicadas JUNTAS (`restartAll`). Redondo e pílula mexem
- * nos mesmos toggles: as duas desligam antes de qualquer uma ligar.
- */
 const FEATURES_BY_SETTING: Record<SettingsKey, readonly FeatureId[]> = {
   [SettingsKey.BANNER_POSITION]: [FeatureId.BANNER_POSITION],
   [SettingsKey.ROUND_TOGGLES]: [FeatureId.ROUND_TOGGLES, FeatureId.PILL_TOGGLES],

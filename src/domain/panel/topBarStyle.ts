@@ -1,10 +1,3 @@
-/**
- * Estilo da barra superior (preferência) e o que cada estilo muda nela. "Zonas" são as três
- * caixas da barra: atividades à esquerda, relógio no centro, ícones e Quick Settings à
- * direita. Com fundo transparente, cada zona ganha um fundo arredondado para continuar
- * legível sobre qualquer papel de parede.
- */
-
 export const TopBarStyle = {
   DEFAULT: "default",
   TRANSPARENT: "transparent",

@@ -1,8 +1,3 @@
-/**
- * Grade do Quick Settings com 4 colunas e toggles redondos (mockup "Quick Toggles" do
- * GNOME Design). Sliders, cabeçalho e notificações continuam com a largura total. Itens
- * que entram depois também são convertidos (`GridItemTracker`).
- */
 import type Clutter from "gi://Clutter";
 import type Gio from "gi://Gio";
 

@@ -71,12 +71,12 @@ describe("FeatureSet", () => {
     expect(log).toEqual(["+a", "-a"]);
   });
 
-  test("restart reaplica só a feature pedida", () => {
+  test("restartAll reaplica só a feature pedida", () => {
     const log: string[] = [];
     const set = new FeatureSet([makeFeature("a", log), makeFeature("b", log)], () => {});
     set.enableAll();
 
-    set.restart("b");
+    set.restartAll(["b"]);
 
     expect(log).toEqual(["+a", "+b", "-b", "+b"]);
   });
@@ -108,11 +108,11 @@ describe("FeatureSet", () => {
     expect(log).toEqual(["+a", "-a", "+a"]);
   });
 
-  test("restart de feature desligada não faz nada", () => {
+  test("restartAll de feature desligada não faz nada", () => {
     const log: string[] = [];
     const set = new FeatureSet([makeFeature("a", log)], () => {});
 
-    set.restart("a");
+    set.restartAll(["a"]);
 
     expect(log).toEqual([]);
   });

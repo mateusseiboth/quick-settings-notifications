@@ -1,7 +1,3 @@
-/**
- * Ciclo de vida das features da extensão: liga em ordem, desliga na ordem inversa, e
- * isola falhas. Só desliga quem ligou com sucesso.
- */
 import type { Feature } from "@domain/feature/feature";
 
 export const FeaturePhase = {
@@ -28,16 +24,6 @@ export class FeatureSet {
     [...this.features].reverse().forEach((feature) => this.disable(feature));
   }
 
-  /** Reaplica uma feature ligada (ex.: preferência alterada). */
-  restart(id: string): void {
-    this.restartAll([id]);
-  }
-
-  /**
-   * Reaplica várias features ligadas: desliga TODAS (na ordem inversa da lista) antes de
-   * ligar qualquer uma (na ordem da lista). Features que mexem nos mesmos atores não podem
-   * reiniciar uma de cada vez, senão o desfazer de uma devolve o que a outra tirou.
-   */
   restartAll(ids: readonly string[]): void {
     const running = this.features.filter(
       (feature) => ids.includes(feature.id) && this.enabled.has(feature),
