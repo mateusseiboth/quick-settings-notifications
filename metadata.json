@@ -6,5 +6,5 @@
   "url": "https://github.com/mateusseiboth/quick-settings-notifications",
   "settings-schema": "org.gnome.shell.extensions.quick-settings-notifications",
   "gettext-domain": "quick-settings-notifications",
-  "version-name": "1.0.0"
+  "version-name": "1.0.1"
 }
