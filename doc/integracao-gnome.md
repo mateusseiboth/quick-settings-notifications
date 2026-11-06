@@ -1,11 +1,13 @@
 # Internos do GNOME Shell 50 usados
 
-Conferido no gnome-shell 50.5 (código extraído de `/usr/lib64/gnome-shell/libshell-18.so`).
+Conferido no gnome-shell 50.5 (`libshell-18.so`) e no 51.1 (`libshell-51.so`), código extraído com `gresource extract`.
 
 | Ator ou API | Arquivo do Shell | Uso |
 | --- | --- | --- |
 | `Main.panel.statusArea.dateMenu._messageList` (`CalendarMessageList`) | dateMenu.js, calendar.js | Lista movida para o Quick Settings |
-| `CalendarMessageList.maybeCollapseMessageGroupForEvent(event)` | calendar.js | Recolher grupo ao clicar fora |
+| `CalendarMessageList.maybeCollapseMessageGroupForEvent(event)` (só no 50) | calendar.js | Recolher grupo ao clicar fora |
+| `CalendarMessageList.setCaptureContainer(actor)` e `_captureContainer` (51) | calendar.js | Recolher grupo ao clicar fora |
+| `Main.messageTray._updateShowingNotification` e `_notificationState` (`State` de messageTray.js) | messageTray.js | Contornar o aviso atualizado enquanto some |
 | `CalendarMessageList._messageView.empty` e `_clearButton` | calendar.js, messageList.js | Esconder a seção vazia; "Limpar" à direita |
 | `SystemItem.child`, `_laptopSpacer`, `_desktopSpacer` (classe `quick-settings-system-item`) | status/system.js | Reordenar o cabeçalho |
 | `Avatar` | userWidget.js | Foto do usuário no cabeçalho (o `@girs` 50.0.4 não declara; contrato mínimo na feature) |

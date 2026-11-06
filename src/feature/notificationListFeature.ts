@@ -6,19 +6,15 @@ import { insertKeepingVisibility } from "@domain/actor/insertKeepingVisibility";
 import { FeatureId } from "@domain/feature/featureId";
 import { UndoableFeature } from "@domain/feature/undoableFeature";
 import { resolveNotificationPlacement } from "@domain/notification/notificationPlacement";
+import { GROUP_COLLAPSERS } from "@feature/notificationList/groupCollapsers";
 import { SECTION_HOSTS } from "@feature/notificationList/sectionHosts";
 import { SettingsKey } from "@infra/gnome/settingsKeys";
 import {
   requireDateMenu,
   requireQuickSettings,
+  ShellShapeError,
   type MessageListInternals,
 } from "@infra/gnome/shellInternals";
-
-const COLLAPSE_EVENTS = [
-  "captured-event::button",
-  "captured-event::touch",
-  "captured-event::key",
-] as const;
 
 export class NotificationListFeature extends UndoableFeature {
   readonly id = FeatureId.NOTIFICATION_LIST;
@@ -46,9 +42,7 @@ export class NotificationListFeature extends UndoableFeature {
     this.removeCalendarSpacing(messageList);
     this.hideWhenEmpty(messageList, host);
     this.alignClearButtonRight(messageList);
-    this.collapseGroupsOnOutsideClick(menu.actor, (event) =>
-      messageList.maybeCollapseMessageGroupForEvent(event),
-    );
+    this.collapseGroupsOnOutsideClick(messageList, menu.actor);
   }
 
   private moveIntoSection(messageList: St.Widget, section: St.BoxLayout): void {
@@ -106,12 +100,12 @@ export class NotificationListFeature extends UndoableFeature {
   }
 
   private collapseGroupsOnOutsideClick(
+    messageList: MessageListInternals,
     menuActor: Clutter.Actor,
-    collapse: (event: Clutter.Event) => boolean,
   ): void {
-    const ids = COLLAPSE_EVENTS.map((signal) =>
-      menuActor.connect(signal, (_actor: Clutter.Actor, event: Clutter.Event) => collapse(event)),
+    const isAttached = GROUP_COLLAPSERS.some((collapser) =>
+      collapser.attachIfSupported(messageList, menuActor, this.undo),
     );
-    this.undo.push(() => ids.forEach((id) => menuActor.disconnect(id)));
+    if (!isAttached) throw new ShellShapeError("CalendarMessageList collapse");
   }
 }

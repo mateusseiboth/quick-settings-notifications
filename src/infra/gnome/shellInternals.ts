@@ -17,12 +17,25 @@ export interface MessageViewInternals extends St.Widget {
 export interface MessageListInternals extends St.Widget {
   readonly _messageView: MessageViewInternals;
   readonly _clearButton: St.Button;
+}
+
+export interface EventCollapseInternals extends MessageListInternals {
   maybeCollapseMessageGroupForEvent(event: Clutter.Event): boolean;
+}
+
+export interface CaptureContainerInternals extends MessageListInternals {
+  readonly _captureContainer: Clutter.Actor | null;
+  setCaptureContainer(container: Clutter.Actor | null): void;
 }
 
 export interface DateMenuInternals {
   readonly _messageList: MessageListInternals;
   readonly _indicator: St.Icon;
+}
+
+export interface MessageTrayInternals {
+  readonly _notificationState: number;
+  _updateShowingNotification(): void;
 }
 
 export interface QuickSettingsLayoutInternals extends Clutter.LayoutManager {
@@ -153,3 +166,23 @@ export const requireSystemItem = (grid: St.Widget): SystemItemInternals => {
   if (!item._laptopSpacer || !item._desktopSpacer) throw new ShellShapeError("SystemItem spacers");
   return item as SystemItemInternals;
 };
+
+export const requireMessageTray = (): MessageTrayInternals => {
+  const tray = Main.messageTray as unknown as Partial<MessageTrayInternals>;
+  if (typeof tray._updateShowingNotification !== "function")
+    throw new ShellShapeError("messageTray._updateShowingNotification");
+  if (typeof tray._notificationState !== "number")
+    throw new ShellShapeError("messageTray._notificationState");
+  return tray as MessageTrayInternals;
+};
+
+export const hasEventCollapseInternals = (
+  messageList: MessageListInternals,
+): messageList is EventCollapseInternals =>
+  typeof (messageList as Partial<EventCollapseInternals>).maybeCollapseMessageGroupForEvent ===
+  "function";
+
+export const hasCaptureContainerInternals = (
+  messageList: MessageListInternals,
+): messageList is CaptureContainerInternals =>
+  typeof (messageList as Partial<CaptureContainerInternals>).setCaptureContainer === "function";

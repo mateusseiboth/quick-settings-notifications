@@ -3,6 +3,7 @@ import type Gio from "gi://Gio";
 import type { Feature } from "@domain/feature/feature";
 import { FeatureId } from "@domain/feature/featureId";
 import { BannerPositionFeature } from "@feature/bannerPositionFeature";
+import { BannerUpdateGuardFeature } from "@feature/bannerUpdateGuardFeature";
 import { HeaderLayoutFeature } from "@feature/headerLayoutFeature";
 import { MessagesIndicatorFeature } from "@feature/messagesIndicatorFeature";
 import { MessageTrayShortcutFeature } from "@feature/messageTrayShortcutFeature";
@@ -15,6 +16,7 @@ import { FeatureSet, type FeaturePhase } from "@service/featureSet";
 
 export const createFeatures = (settings: Gio.Settings): Feature[] => [
   new BannerPositionFeature(settings),
+  new BannerUpdateGuardFeature(),
   new MessageTrayShortcutFeature(),
   new NotificationListFeature(settings),
   new MessagesIndicatorFeature(),

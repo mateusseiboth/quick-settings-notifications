@@ -1,5 +1,6 @@
 export const FeatureId = {
   BANNER_POSITION: "banner-position",
+  BANNER_UPDATE_GUARD: "banner-update-guard",
   MESSAGE_TRAY_SHORTCUT: "message-tray-shortcut",
   NOTIFICATION_LIST: "notification-list",
   MESSAGES_INDICATOR: "messages-indicator",

@@ -8,6 +8,9 @@ Extensão do GNOME Shell 50 e 51 que segue o mockup "Quick Toggles" do GNOME Des
 - Os toggles viram botões redondos em quatro colunas. O círculo liga e desliga. Nos toggles
   com menu, o título vira "Título ▾" e abre as opções, como a seta de antes.
 - O aviso de notificação recebida aparece no topo direito em vez do centro.
+- Contorna um defeito do GNOME Shell 51: quando um app atualiza uma notificação enquanto o
+  aviso dela está sumindo, o Shell parava de mostrar avisos até a sessão reiniciar (as
+  notificações continuavam chegando na lista).
 - O ponto de "não lida" ao lado do relógio vira um sino junto aos ícones do Quick Settings.
 - Cabeçalho como no mockup: avatar do usuário à esquerda (abre as configurações de
   usuários), captura de tela e configurações junto do cadeado e do desligar, à direita.

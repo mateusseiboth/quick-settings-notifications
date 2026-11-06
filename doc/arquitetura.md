@@ -9,13 +9,14 @@ ligar é registrada no log e não é desligada depois; as outras seguem.
 | Ordem | Feature | O que faz |
 | --- | --- | --- |
 | 1 | `BannerPositionFeature` | `Main.messageTray.bannerAlignment` conforme a preferência |
-| 2 | `MessageTrayShortcutFeature` | Super+V passa a chamar `Main.panel.toggleQuickSettings()` |
-| 3 | `NotificationListFeature` | Move o `CalendarMessageList` para o fim do Quick Settings ou para um painel separado abaixo dele |
-| 4 | `MessagesIndicatorFeature` | Move o indicador de não lidas do relógio para um `SystemIndicator` |
-| 5 | `HeaderLayoutFeature` | Avatar à esquerda; captura de tela e configurações à direita |
-| 6 | `RoundTogglesFeature` | Grade com 4 colunas e toggles redondos |
-| 7 | `PillTogglesFeature` | Toggles em pílula fina quando o redondo está desligado |
-| 8 | `TopBarStyleFeature` | Barra superior normal, transparente, ou transparente com fundo em cada zona |
+| 2 | `BannerUpdateGuardFeature` | Ignora a atualização de um aviso que está sumindo (defeito do Shell 51, ver abaixo) |
+| 3 | `MessageTrayShortcutFeature` | Super+V passa a chamar `Main.panel.toggleQuickSettings()` |
+| 4 | `NotificationListFeature` | Move o `CalendarMessageList` para o fim do Quick Settings ou para um painel separado abaixo dele |
+| 5 | `MessagesIndicatorFeature` | Move o indicador de não lidas do relógio para um `SystemIndicator` |
+| 6 | `HeaderLayoutFeature` | Avatar à esquerda; captura de tela e configurações à direita |
+| 7 | `RoundTogglesFeature` | Grade com 4 colunas e toggles redondos |
+| 8 | `PillTogglesFeature` | Toggles em pílula fina quando o redondo está desligado |
+| 9 | `TopBarStyleFeature` | Barra superior normal, transparente, ou transparente com fundo em cada zona |
 
 Mudar uma preferência chama `FeatureSet.restartAll(ids)` com as features afetadas
 (`FEATURES_BY_SETTING`): TODAS desligam antes de qualquer uma ligar. O formato dos toggles
@@ -93,9 +94,30 @@ A seção é um `St.BoxLayout` com a classe `qsn-notifications` (largura 25em, a
 enquanto o `MessageView` estiver vazio (`notify::empty`), e o botão "Limpar" é alinhado à
 direita (`x_align = END`). Margem, recuo e borda que a lista tinha no calendário são zerados
 por estilo inline na lista, no `MessageView` (que reservava 12px para a barra de rolagem)
-e na barra do "Limpar", para a seção encostar nas bordas do painel. Os mesmos eventos que o
-calendário usa para recolher um grupo expandido ao clicar fora (`captured-event::button`,
-`::touch`, `::key`) passam a vir do menu do Quick Settings.
+e na barra do "Limpar", para a seção encostar nas bordas do painel.
+
+Recolher um grupo expandido ao clicar fora passa a valer no menu do Quick Settings.
+`GROUP_COLLAPSERS` (src/feature/notificationList) tem uma strategy por versão do Shell:
+
+- Shell 51: `CalendarMessageList.setCaptureContainer(menu.actor)`. O desfazer devolve o
+  contêiner anterior (o menu do calendário).
+- Shell 50: os eventos `captured-event::button`, `::touch` e `::key` do menu chamam
+  `maybeCollapseMessageGroupForEvent`, que o 51 removeu.
+
+## Aviso que some enquanto é atualizado (Shell 51)
+
+No `MessageTray` do Shell 51, o `_hideNotification` termina a animação com `onStopped`.
+Quando um app atualiza a notificação cujo aviso está sumindo (estado `HIDING`), o
+`_updateShowingNotification` chama `remove_all_transitions()`, que dispara esse `onStopped`
+na hora: `_notification` vira `null` e o tray se esconde. A animação de entrada, sem ator
+mapeado, termina na mesma chamada e o `_showNotificationCompleted` quebra com
+`this._notification is null`. O tray fica em `SHOWN` sem aviso; na chamada seguinte o
+`_updateState` quebra com `_updatingState = true` e nunca mais mostra aviso. A lista
+continua recebendo as notificações.
+
+`BannerUpdateGuardFeature` envolve o `_updateShowingNotification` da instância
+(`guardMethod`, src/domain/patch) e não o chama em `HIDING`: o aviso termina de sumir e a
+notificação atualizada fica na lista. O desfazer remove o envoltório.
 
 ## Barra superior
 
