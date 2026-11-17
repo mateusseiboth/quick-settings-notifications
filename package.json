@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@girs/gnome-shell": "^50.0.4",
+    "@girs/soup-3.0": "^4.9.0",
     "@types/bun": "^1.4.3",
     "oxfmt": "^0.72.0",
     "oxlint": "^1.87.0",
